@@ -102,3 +102,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# =============
+# Custom Ignore
+.vscode
+*.csv
+*.numbers
+/_notes.archive.txt
