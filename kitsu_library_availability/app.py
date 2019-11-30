@@ -15,15 +15,15 @@ logging.basicConfig(filename='wip.log', filemode='w', level=logging.DEBUG)
 
 
 def rmBrs(line):
-    """Replace all whitespace (line breaks, etc) with spaces"""
+    """Replace all whitespace (line breaks, etc) with spaces."""
     return ' '.join(line.split())
 
 
-def get(URL, debug=False):
-    """Generic Get request for data object"""
+def get(URL, debug=False, kwargs={}):
+    """Generic Get request for data object."""
     if debug:
         logging.debug(ic('GET: `{}`'.format(URL)))
-    raw = requests.get(URL)
+    raw = requests.get(URL, kwargs)
     try:
         resp = raw.json()
         if debug:
@@ -36,7 +36,7 @@ def get(URL, debug=False):
 
 
 def getKitsu(endpoint, debug=False):
-    """Basic Get request to KitsuAPI"""
+    """Basic Get request to KitsuAPI."""
     baseURL = 'https://kitsu.io/api/edge/'
     return get('{}{}'.format(baseURL, endpoint), debug)
 
@@ -79,9 +79,13 @@ def run(username=None):
             if status not in ['dropped', 'completed']:
                 # Get anime specific information
                 logging.debug('---- Anime ----')
-                anime = get(libEData['relationships']['anime']['links']['related'])
+                anime = get(libEData['relationships']['anime']['links']['related'], kwargs={'include': 'categories'})
                 # >>logging.debug(ic.format(anime))
                 animeAttr = anime['data']['attributes']
+
+                # ic(animeAttr)
+                # ic(animeAttr['slug'])
+                categories = [attr['attributes']['slug'] for attr in anime['included']]
 
                 data = {
                     'id': libEData['id'],
@@ -125,7 +129,12 @@ def run(username=None):
                 if int(streams['meta']['count']) != 0:
                     for stream in streams['data']:
                         streamURL = stream['attributes']['url']
-                        data[urlparse(streamURL).netloc.split('.')[1]] = streamURL
+                        key = urlparse(streamURL).netloc
+                        try:
+                            key = urlparse(streamURL).netloc.split('.')[1]
+                        except IndexError:
+                            pass
+                        data[key] = streamURL
 
                 # Add data as new line to CSV file
                 with open(outFn, 'a') as csvfile:
@@ -134,11 +143,10 @@ def run(username=None):
         # Check if there is a 'next' URL available
         try:
             url = thisEntry['links']['next']
-            libEntry = get(url)
             ic('Fetching: {}'.format(url))
-        except AttributeError:
+            libEntry = get(url)
+
+            # raise AttributeError('BREAK!')  # FIXME: remove!
+        except (AttributeError, KeyError) as err:
             libEntry = False
-
-
-if __name__ == '__main__':
-    run('likesbikes')
+            ic(err)
