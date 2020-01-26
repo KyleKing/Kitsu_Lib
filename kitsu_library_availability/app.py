@@ -1,3 +1,5 @@
+"""Main application."""
+
 import csv
 import json
 import logging
@@ -14,16 +16,22 @@ except ImportError:  # Graceful fall back if IceCream isn't installed.
 logging.basicConfig(filename='wip.log', filemode='w', level=logging.DEBUG)
 
 
-def rmBrs(line):
+# TODO: Write to files in a folder
+# Step 2: read files and create summary
+# Load into dataframe and spit out CSV with preferred filter
+# Creating running list of genres adding Nones to the records until all the same length
+
+
+def rm_brs(line):
     """Replace all whitespace (line breaks, etc) with spaces."""
     return ' '.join(line.split())
 
 
-def get(URL, debug=False, kwargs={}):
-    """Generic Get request for data object."""
+def get_data(url, debug=False, kwargs={}):
+    """Return response from generic get request for data object."""
     if debug:
-        logging.debug(ic('GET: `{}`'.format(URL)))
-    raw = requests.get(URL, kwargs)
+        logging.debug(ic('GET: `{}`'.format(url)))
+    raw = requests.get(url, kwargs)
     try:
         resp = raw.json()
         if debug:
@@ -31,14 +39,14 @@ def get(URL, debug=False, kwargs={}):
         time.sleep(0.1)
         return resp
     except json.decoder.JSONDecodeError as e:
-        ic('{}\nFailed to parse response from: {}\n{}\n'.format('=' * 80, URL, raw.text))
+        ic('{}\nFailed to parse response from: {}\n{}\n'.format('=' * 80, url, raw.text))
         raise e
 
 
-def getKitsu(endpoint, debug=False):
+def get_kitsu(endpoint, debug=False):
     """Basic Get request to KitsuAPI."""
-    baseURL = 'https://kitsu.io/api/edge/'
-    return get('{}{}'.format(baseURL, endpoint), debug)
+    base_url = 'https://kitsu.io/api/edge/'
+    return get_data('{}{}'.format(base_url, endpoint), debug)
 
 
 def run(username=None):
@@ -48,105 +56,108 @@ def run(username=None):
 
     """
     # Init the CSV output file with legend
-    outFn = 'summary.csv'
+    out_fn = 'summary.csv'
     legend = [
         'canonicalTitle', 'synopsis', 'My Status', 'progress',  'showType',
         'averageRating', 'userCount', 'favoritesCount', 'popularityRank', 'ratingRank', 'ageRating', 'status',
         'startDate', 'endDate', 'nextRelease', 'posterImage', 'episodeCount', 'episodeLength', 'totalLength',
         'Stream Count', 'funimation', 'crunchyroll', 'hulu', 'amazon', 'netflix', 'tubitv', 'hidive', 'viewster'
     ]
-    with open(outFn, 'w') as csvfile:
-        csv.writer(csvfile).writerow(legend)
+    with open(out_fn, 'w') as csv_file:
+        csv.writer(csv_file).writerow(legend)
 
     if username is None:
         username = input('Type your Kitsu username and press enter: ').strip()
 
     # Get user ID
-    data = getKitsu('users?filter[name]={}'.format(username))['data']
-    myID = int(data[0]['id'])
+    data = get_kitsu('users?filter[name]={}'.format(username))['data']
+    my_id = int(data[0]['id'])
 
     # Loop through a user's library
-    libEntry = getKitsu('users/{}/library-entries?filter[kind]=anime'.format(myID))
-    while libEntry:
+    lib_entry = get_kitsu('users/{}/library-entries?filter[kind]=anime'.format(my_id))
+    while lib_entry:
         logging.debug('======== Library Entry ========')
-        thisEntry = libEntry
-        # >>logging.debug(ic.format(thisEntry))
-        for libEData in thisEntry['data']:
+        this_entry = lib_entry
+        # >>logging.debug(ic.format(this_entry))
+        for entry_data in this_entry['data']:
             # Store user's ratings and info
-            libEAttr = libEData['attributes']
-            status = libEAttr['status']
+            entry_attr = entry_data['attributes']
+            status = entry_attr['status']
             # Check is status is one of planned, on_hold, or currently watching (?)
             if status not in ['dropped', 'completed']:
                 # Get anime specific information
                 logging.debug('---- Anime ----')
-                anime = get(libEData['relationships']['anime']['links']['related'], kwargs={'include': 'categories'})
+                anime = get_data(
+                    entry_data['relationships']['anime']['links']['related'],
+                    kwargs={'include': 'categories'},
+                )
                 # >>logging.debug(ic.format(anime))
-                animeAttr = anime['data']['attributes']
+                anime_attr = anime['data']['attributes']
 
-                # ic(animeAttr)
-                # ic(animeAttr['slug'])
+                # ic(anime_attr)
+                # ic(anime_attr['slug'])
                 categories = [attr['attributes']['slug'] for attr in anime['included']]
 
                 data = {
-                    'id': libEData['id'],
-                    'createdAt': libEAttr['createdAt'],
-                    'updatedAt': libEAttr['updatedAt'],
+                    'id': entry_data['id'],
+                    'createdAt': entry_attr['createdAt'],
+                    'updatedAt': entry_attr['updatedAt'],
                     'My Status': status,
-                    'progress': libEAttr['progress'],
-                    'notes': libEAttr['notes'],
-                    'private': libEAttr['private'],
-                    'progressedAt': libEAttr['progressedAt'],
-                    'startedAt': libEAttr['startedAt'],
-                    'finishedAt': libEAttr['finishedAt'],
-                    'ratingTwenty': libEAttr['ratingTwenty'],
+                    'progress': entry_attr['progress'],
+                    'notes': entry_attr['notes'],
+                    'private': entry_attr['private'],
+                    'progressedAt': entry_attr['progressedAt'],
+                    'startedAt': entry_attr['startedAt'],
+                    'finishedAt': entry_attr['finishedAt'],
+                    'ratingTwenty': entry_attr['ratingTwenty'],
 
-                    'canonicalTitle': animeAttr['canonicalTitle'],
-                    'slug': animeAttr['slug'],
-                    'synopsis': rmBrs(animeAttr['synopsis']),
-                    'averageRating': animeAttr['averageRating'],
-                    'userCount': animeAttr['userCount'],
-                    'favoritesCount': animeAttr['favoritesCount'],
-                    'startDate': animeAttr['startDate'],
-                    'endDate': animeAttr['endDate'],
-                    'nextRelease': animeAttr['nextRelease'],
-                    'popularityRank': animeAttr['popularityRank'],
-                    'ratingRank': animeAttr['ratingRank'],
-                    'ageRating': animeAttr['ageRating'],
-                    # 'subtype': animeAttr['subtype'],
-                    'status': animeAttr['status'],
-                    'posterImage': animeAttr['posterImage']['original'],
-                    'episodeCount': animeAttr['episodeCount'],
-                    'episodeLength': animeAttr['episodeLength'],
-                    'totalLength': animeAttr['totalLength'],
-                    'showType': animeAttr['showType']
+                    'canonicalTitle': anime_attr['canonicalTitle'],
+                    'slug': anime_attr['slug'],
+                    'synopsis': rm_brs(anime_attr['synopsis']),
+                    'averageRating': anime_attr['averageRating'],
+                    'userCount': anime_attr['userCount'],
+                    'favoritesCount': anime_attr['favoritesCount'],
+                    'startDate': anime_attr['startDate'],
+                    'endDate': anime_attr['endDate'],
+                    'nextRelease': anime_attr['nextRelease'],
+                    'popularityRank': anime_attr['popularityRank'],
+                    'ratingRank': anime_attr['ratingRank'],
+                    'ageRating': anime_attr['ageRating'],
+                    # 'subtype': anime_attr['subtype'],
+                    'status': anime_attr['status'],
+                    'posterImage': anime_attr['posterImage']['original'],
+                    'episodeCount': anime_attr['episodeCount'],
+                    'episodeLength': anime_attr['episodeLength'],
+                    'totalLength': anime_attr['totalLength'],
+                    'showType': anime_attr['showType']
                 }
 
                 # Get streaming links
                 logging.debug('---- Streams Entry ----')
-                streams = get(anime['data']['relationships']['streamingLinks']['links']['related'])
+                streams = get_data(anime['data']['relationships']['streamingLinks']['links']['related'])
                 # >>logging.debug(ic.format(streams))
                 data['Stream Count'] = streams['meta']['count']
                 if int(streams['meta']['count']) != 0:
                     for stream in streams['data']:
-                        streamURL = stream['attributes']['url']
-                        key = urlparse(streamURL).netloc
+                        stream_url = stream['attributes']['url']
+                        key = urlparse(stream_url).netloc
                         try:
-                            key = urlparse(streamURL).netloc.split('.')[1]
+                            key = urlparse(stream_url).netloc.split('.')[1]
                         except IndexError:
                             pass
-                        data[key] = streamURL
+                        data[key] = stream_url
 
                 # Add data as new line to CSV file
-                with open(outFn, 'a') as csvfile:
-                    csv.writer(csvfile).writerow([data[leg] if (leg in data) else '---' for leg in legend])
+                with open(out_fn, 'a') as csv_file:
+                    csv.writer(csv_file).writerow([data[leg] if (leg in data) else '---' for leg in legend])
 
         # Check if there is a 'next' URL available
         try:
-            url = thisEntry['links']['next']
+            url = this_entry['links']['next']
             ic('Fetching: {}'.format(url))
-            libEntry = get(url)
+            lib_entry = get_data(url)
 
             # raise AttributeError('BREAK!')  # FIXME: remove!
         except (AttributeError, KeyError) as err:
-            libEntry = False
+            lib_entry = False
             ic(err)

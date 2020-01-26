@@ -1,0 +1,1 @@
+"""Kitsu Library Availability tests."""
