@@ -1,5 +1,7 @@
 """Main application."""
 
+# See: https://codebeat.co/projects/github-com-kyleking-kitsu-library-availability-master
+
 import csv
 import json
 import logging

@@ -1,15 +1,30 @@
 # Kitsu-Library-Where-Stream
 
-> Check streaming availability for anime in user's Kitsu library
+> Check streaming availability for anime in a user's Kitsu library
 
-The app queries the Kitsu API for a specified user's anime library, then creates a CSV with the anime and streaming links (if any). Open an issue if you have any questions or issues.
+The app queries the Kitsu API for a specified user's anime library, then creates a CSV with the anime and any streaming links that Kitsu reports
+
+Open an issue if you have any questions or issues.
 
 ## Quick Start
 
-If you have Python ^3.6 and the required packages from `poetry.toml` (`requests`). You can quickly run this app with `python main.py my_username` (replace my_username with your actual Kitsu username)
+Initial commands to clone code from Github, create Python virtual environment, and run first example application. Replace `my_username` with your actual Kitsu username
 
-The app is best run with Poetry ([https://github.com/sdispater/poetry](https://github.com/sdispater/poetry#installation)). Run `poetry install` and `poetry run python main.py my_username`
+```sh
+git clone https://github.com/KyleKing/dash_charts.git
+cd dash_charts
+poetry install
+poetry shell
+python main.py my_username
+# FIXME: Document actually running this application!!
+```
 
 ## Testing
 
-With `poetry` installed, run `poetry run pytest -x`
+Other useful scripts for testing, documentation, and more:
+
+```sh
+poetry run ptw -- -m "not CHROME"
+poetry run doit run test
+poetry run doit
+```

@@ -1,1 +1,1 @@
-"""Kitsu Library Availability tests."""
+"""Kitsu Library Availability test files."""
