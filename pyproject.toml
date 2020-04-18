@@ -1,14 +1,16 @@
 [tool.poetry]
-name = "kitsu-library-availability"
+name = "kitsu_library_availability"
 version = "0.0.1"
 description = "Check streaming availability for shows or movies in user's Kitsu library"
 authors = ["Kyle King <KyleKing@users.noreply.github.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.7, !=3.8"
+csv-to-sqlite = "*"
 icecream = "*"
 requests = "*"
+dash_charts = {git = "https://github.com/KyleKing/dash_charts.git"}
 
 [tool.poetry.dev-dependencies]
 dash_dev = {git = "https://github.com/KyleKing/dash_dev.git"}

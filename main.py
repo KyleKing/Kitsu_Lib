@@ -5,5 +5,7 @@ import sys
 from kitsu_library_availability import app
 
 if __name__ == '__main__':
-    assert len(sys.argv) == 2, 'Expected username as CLI argument. Received: {}'.format(sys.argv[1:])
+    if len(sys.argv) != 2:
+        raise RuntimeError(f'Expected username as CLI argument. Received: {sys.argv[1:]}')
+
     app.run(username=sys.argv[1])

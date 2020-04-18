@@ -6,4 +6,4 @@ from dash_charts import __version__
 
 def test_version():
     """Check that PyProject and __version__ are equivalent."""
-    assert toml.load('pyproject.toml')['tool']['poetry']['version'] == __version__
+    assert toml.load('pyproject.toml')['tool']['poetry']['version'] == __version__  # act

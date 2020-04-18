@@ -28,3 +28,7 @@ poetry run ptw -- -m "not CHROME"
 poetry run doit run test
 poetry run doit
 ```
+
+## Links
+
+Also checkout the AniList GraphQL API: https://anilist.gitbook.io/anilist-apiv2-docs/

@@ -25,14 +25,29 @@ logging.basicConfig(filename='wip.log', filemode='w', level=logging.DEBUG)
 
 
 def rm_brs(line):
-    """Replace all whitespace (line breaks, etc) with spaces."""
+    """Replace all whitespace (line breaks, etc) with spaces."""  # noqa: DAR101,DAR201
     return ' '.join(line.split())
 
 
-def get_data(url, debug=False, kwargs={}):
-    """Return response from generic get request for data object."""
+def get_data(url, kwargs=None, debug=False):
+    """Return response from generic get request for data object.
+
+    Args:
+        url: URL for request
+        kwargs: Additional arguments to pass to `requests.get()`. Default is None
+        debug: if True, will print additional output to STDOUT. Default is False
+
+    Returns:
+        dict: request response
+
+    Raises:
+        json.decoder.JSONDecodeError: if response cannot be decoded to JSOn
+
+    """
     if debug:
-        logging.debug(ic('GET: `{}`'.format(url)))
+        logging.debug(ic(f'GET: `{url}`'))
+    if kwargs is None:
+        kwargs = {}
     raw = requests.get(url, kwargs)
     try:
         resp = raw.json()
@@ -40,30 +55,30 @@ def get_data(url, debug=False, kwargs={}):
             logging.debug(ic(resp))
         time.sleep(0.1)
         return resp
-    except json.decoder.JSONDecodeError as e:
-        ic('{}\nFailed to parse response from: {}\n{}\n'.format('=' * 80, url, raw.text))
-        raise e
+    except json.decoder.JSONDecodeError as error:
+        ic(f"{'=' * 80}\nFailed to parse response from: {url}\n{raw.text}\n\nerror:{error}")
+        raise
 
 
 def get_kitsu(endpoint, debug=False):
-    """Basic Get request to KitsuAPI."""
-    base_url = 'https://kitsu.io/api/edge/'
-    return get_data('{}{}'.format(base_url, endpoint), debug)
+    """Make request against Kitsu API."""
+    return get_data(f'https://kitsu.io/api/edge/{endpoint}', debug=debug)
 
 
 def run(username=None):
     """TODO: Split into functions.
 
-    username -- optional Kitsu user name. Otherwise falls back to input()
+    Args:
+        username: optional Kitsu user name. Otherwise falls back to input()
 
     """
     # Init the CSV output file with legend
     out_fn = 'summary.csv'
     legend = [
-        'canonicalTitle', 'synopsis', 'My Status', 'progress',  'showType',
+        'canonicalTitle', 'synopsis', 'My Status', 'progress', 'showType',
         'averageRating', 'userCount', 'favoritesCount', 'popularityRank', 'ratingRank', 'ageRating', 'status',
         'startDate', 'endDate', 'nextRelease', 'posterImage', 'episodeCount', 'episodeLength', 'totalLength',
-        'Stream Count', 'funimation', 'crunchyroll', 'hulu', 'amazon', 'netflix', 'tubitv', 'hidive', 'viewster'
+        'Stream Count', 'funimation', 'crunchyroll', 'hulu', 'amazon', 'netflix', 'tubitv', 'hidive', 'viewster',
     ]
     with open(out_fn, 'w') as csv_file:
         csv.writer(csv_file).writerow(legend)
@@ -72,11 +87,11 @@ def run(username=None):
         username = input('Type your Kitsu username and press enter: ').strip()
 
     # Get user ID
-    data = get_kitsu('users?filter[name]={}'.format(username))['data']
+    data = get_kitsu(f'users?filter[name]={username}')['data']
     my_id = int(data[0]['id'])
 
     # Loop through a user's library
-    lib_entry = get_kitsu('users/{}/library-entries?filter[kind]=anime'.format(my_id))
+    lib_entry = get_kitsu(f'users/{my_id}/library-entries?filter[kind]=anime')
     while lib_entry:
         logging.debug('======== Library Entry ========')
         this_entry = lib_entry
@@ -98,7 +113,7 @@ def run(username=None):
 
                 # ic(anime_attr)
                 # ic(anime_attr['slug'])
-                categories = [attr['attributes']['slug'] for attr in anime['included']]
+                # categories = [attr['attributes']['slug'] for attr in anime['included']]
 
                 data = {
                     'id': entry_data['id'],
@@ -131,7 +146,7 @@ def run(username=None):
                     'episodeCount': anime_attr['episodeCount'],
                     'episodeLength': anime_attr['episodeLength'],
                     'totalLength': anime_attr['totalLength'],
-                    'showType': anime_attr['showType']
+                    'showType': anime_attr['showType'],
                 }
 
                 # Get streaming links
@@ -156,7 +171,7 @@ def run(username=None):
         # Check if there is a 'next' URL available
         try:
             url = this_entry['links']['next']
-            ic('Fetching: {}'.format(url))
+            ic(f'Fetching: {url}')
             lib_entry = get_data(url)
 
             # raise AttributeError('BREAK!')  # FIXME: remove!
