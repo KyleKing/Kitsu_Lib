@@ -11,12 +11,10 @@ Open an issue if you have any questions or issues.
 Initial commands to clone code from Github, create Python virtual environment, and run first example application. Replace `my_username` with your actual Kitsu username
 
 ```sh
-git clone https://github.com/KyleKing/dash_charts.git
-cd dash_charts
+git clone https://github.com/KyleKing/kitsu_library_availability.git
+cd kitsu_library_availability
 poetry install
-poetry shell
-python main.py my_username
-# FIXME: Document actually running this application!!
+poetry run python main.py my_username
 ```
 
 ## Testing

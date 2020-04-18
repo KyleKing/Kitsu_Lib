@@ -7,12 +7,13 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7, !=3.8"
-csv-to-sqlite = "*"
+dash_charts = {git = "https://github.com/KyleKing/dash_charts.git"}
+dataset = "*"
 icecream = "*"
 requests = "*"
-dash_charts = {git = "https://github.com/KyleKing/dash_charts.git"}
 
 [tool.poetry.dev-dependencies]
+# csv-to-sqlite = "*"
 dash_dev = {git = "https://github.com/KyleKing/dash_dev.git"}
 
 [build-system]

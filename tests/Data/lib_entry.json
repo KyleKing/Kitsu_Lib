@@ -1,0 +1,812 @@
+{
+    "data": [
+        {
+            "id": "36121977",
+            "type": "libraryEntries",
+            "links": {
+                "self": "https://kitsu.io/api/edge/library-entries/36121977"
+            },
+            "attributes": {
+                "createdAt": "2018-10-15T01:26:50.783Z",
+                "updatedAt": "2020-04-03T01:38:56.763Z",
+                "status": "dropped",
+                "progress": 6,
+                "volumesOwned": 0,
+                "reconsuming": false,
+                "reconsumeCount": 0,
+                "notes": null,
+                "private": false,
+                "reactionSkipped": "unskipped",
+                "progressedAt": "2020-04-03T01:38:56.762Z",
+                "startedAt": "2020-01-04T15:02:36.103Z",
+                "finishedAt": null,
+                "rating": "0.0",
+                "ratingTwenty": null
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121977/relationships/user",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121977/user"
+                    }
+                },
+                "anime": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121977/relationships/anime",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121977/anime"
+                    }
+                },
+                "manga": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121977/relationships/manga",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121977/manga"
+                    }
+                },
+                "drama": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121977/relationships/drama",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121977/drama"
+                    }
+                },
+                "review": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121977/relationships/review",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121977/review"
+                    }
+                },
+                "mediaReaction": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121977/relationships/media-reaction",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121977/media-reaction"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121977/relationships/media",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121977/media"
+                    }
+                },
+                "unit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121977/relationships/unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121977/unit"
+                    }
+                },
+                "nextUnit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121977/relationships/next-unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121977/next-unit"
+                    }
+                }
+            }
+        },
+        {
+            "id": "36122080",
+            "type": "libraryEntries",
+            "links": {
+                "self": "https://kitsu.io/api/edge/library-entries/36122080"
+            },
+            "attributes": {
+                "createdAt": "2018-10-15T01:27:10.062Z",
+                "updatedAt": "2018-10-15T01:27:10.062Z",
+                "status": "dropped",
+                "progress": 1,
+                "volumesOwned": 0,
+                "reconsuming": false,
+                "reconsumeCount": 0,
+                "notes": null,
+                "private": false,
+                "reactionSkipped": "unskipped",
+                "progressedAt": null,
+                "startedAt": null,
+                "finishedAt": null,
+                "rating": "0.0",
+                "ratingTwenty": null
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122080/relationships/user",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122080/user"
+                    }
+                },
+                "anime": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122080/relationships/anime",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122080/anime"
+                    }
+                },
+                "manga": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122080/relationships/manga",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122080/manga"
+                    }
+                },
+                "drama": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122080/relationships/drama",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122080/drama"
+                    }
+                },
+                "review": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122080/relationships/review",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122080/review"
+                    }
+                },
+                "mediaReaction": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122080/relationships/media-reaction",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122080/media-reaction"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122080/relationships/media",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122080/media"
+                    }
+                },
+                "unit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122080/relationships/unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122080/unit"
+                    }
+                },
+                "nextUnit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122080/relationships/next-unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122080/next-unit"
+                    }
+                }
+            }
+        },
+        {
+            "id": "36122170",
+            "type": "libraryEntries",
+            "links": {
+                "self": "https://kitsu.io/api/edge/library-entries/36122170"
+            },
+            "attributes": {
+                "createdAt": "2018-10-15T01:27:23.219Z",
+                "updatedAt": "2018-10-15T01:27:23.219Z",
+                "status": "planned",
+                "progress": 0,
+                "volumesOwned": 0,
+                "reconsuming": false,
+                "reconsumeCount": 0,
+                "notes": null,
+                "private": false,
+                "reactionSkipped": "unskipped",
+                "progressedAt": null,
+                "startedAt": null,
+                "finishedAt": null,
+                "rating": "0.0",
+                "ratingTwenty": null
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122170/relationships/user",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122170/user"
+                    }
+                },
+                "anime": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122170/relationships/anime",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122170/anime"
+                    }
+                },
+                "manga": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122170/relationships/manga",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122170/manga"
+                    }
+                },
+                "drama": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122170/relationships/drama",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122170/drama"
+                    }
+                },
+                "review": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122170/relationships/review",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122170/review"
+                    }
+                },
+                "mediaReaction": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122170/relationships/media-reaction",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122170/media-reaction"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122170/relationships/media",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122170/media"
+                    }
+                },
+                "unit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122170/relationships/unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122170/unit"
+                    }
+                },
+                "nextUnit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122170/relationships/next-unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122170/next-unit"
+                    }
+                }
+            }
+        },
+        {
+            "id": "36122073",
+            "type": "libraryEntries",
+            "links": {
+                "self": "https://kitsu.io/api/edge/library-entries/36122073"
+            },
+            "attributes": {
+                "createdAt": "2018-10-15T01:27:09.103Z",
+                "updatedAt": "2019-11-23T17:01:50.119Z",
+                "status": "dropped",
+                "progress": 0,
+                "volumesOwned": 0,
+                "reconsuming": false,
+                "reconsumeCount": 0,
+                "notes": null,
+                "private": false,
+                "reactionSkipped": "unskipped",
+                "progressedAt": "2019-11-23T17:01:50.118Z",
+                "startedAt": null,
+                "finishedAt": null,
+                "rating": "0.0",
+                "ratingTwenty": null
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122073/relationships/user",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122073/user"
+                    }
+                },
+                "anime": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122073/relationships/anime",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122073/anime"
+                    }
+                },
+                "manga": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122073/relationships/manga",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122073/manga"
+                    }
+                },
+                "drama": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122073/relationships/drama",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122073/drama"
+                    }
+                },
+                "review": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122073/relationships/review",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122073/review"
+                    }
+                },
+                "mediaReaction": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122073/relationships/media-reaction",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122073/media-reaction"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122073/relationships/media",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122073/media"
+                    }
+                },
+                "unit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122073/relationships/unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122073/unit"
+                    }
+                },
+                "nextUnit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122073/relationships/next-unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122073/next-unit"
+                    }
+                }
+            }
+        },
+        {
+            "id": "36122173",
+            "type": "libraryEntries",
+            "links": {
+                "self": "https://kitsu.io/api/edge/library-entries/36122173"
+            },
+            "attributes": {
+                "createdAt": "2018-10-15T01:27:23.636Z",
+                "updatedAt": "2019-10-06T00:10:16.032Z",
+                "status": "completed",
+                "progress": 26,
+                "volumesOwned": 0,
+                "reconsuming": false,
+                "reconsumeCount": 0,
+                "notes": null,
+                "private": false,
+                "reactionSkipped": "unskipped",
+                "progressedAt": "2019-10-06T00:10:16.029Z",
+                "startedAt": "2019-06-22T12:15:54.083Z",
+                "finishedAt": "2019-10-06T00:10:16.029Z",
+                "rating": "3.5",
+                "ratingTwenty": 14
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122173/relationships/user",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122173/user"
+                    }
+                },
+                "anime": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122173/relationships/anime",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122173/anime"
+                    }
+                },
+                "manga": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122173/relationships/manga",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122173/manga"
+                    }
+                },
+                "drama": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122173/relationships/drama",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122173/drama"
+                    }
+                },
+                "review": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122173/relationships/review",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122173/review"
+                    }
+                },
+                "mediaReaction": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122173/relationships/media-reaction",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122173/media-reaction"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122173/relationships/media",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122173/media"
+                    }
+                },
+                "unit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122173/relationships/unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122173/unit"
+                    }
+                },
+                "nextUnit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36122173/relationships/next-unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36122173/next-unit"
+                    }
+                }
+            }
+        },
+        {
+            "id": "46753828",
+            "type": "libraryEntries",
+            "links": {
+                "self": "https://kitsu.io/api/edge/library-entries/46753828"
+            },
+            "attributes": {
+                "createdAt": "2019-10-08T01:13:06.760Z",
+                "updatedAt": "2019-10-08T01:13:06.760Z",
+                "status": "dropped",
+                "progress": 0,
+                "volumesOwned": 0,
+                "reconsuming": false,
+                "reconsumeCount": 0,
+                "notes": null,
+                "private": false,
+                "reactionSkipped": "unskipped",
+                "progressedAt": "2019-10-08T01:13:06.760Z",
+                "startedAt": null,
+                "finishedAt": null,
+                "rating": "0.0",
+                "ratingTwenty": null
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46753828/relationships/user",
+                        "related": "https://kitsu.io/api/edge/library-entries/46753828/user"
+                    }
+                },
+                "anime": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46753828/relationships/anime",
+                        "related": "https://kitsu.io/api/edge/library-entries/46753828/anime"
+                    }
+                },
+                "manga": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46753828/relationships/manga",
+                        "related": "https://kitsu.io/api/edge/library-entries/46753828/manga"
+                    }
+                },
+                "drama": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46753828/relationships/drama",
+                        "related": "https://kitsu.io/api/edge/library-entries/46753828/drama"
+                    }
+                },
+                "review": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46753828/relationships/review",
+                        "related": "https://kitsu.io/api/edge/library-entries/46753828/review"
+                    }
+                },
+                "mediaReaction": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46753828/relationships/media-reaction",
+                        "related": "https://kitsu.io/api/edge/library-entries/46753828/media-reaction"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46753828/relationships/media",
+                        "related": "https://kitsu.io/api/edge/library-entries/46753828/media"
+                    }
+                },
+                "unit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46753828/relationships/unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/46753828/unit"
+                    }
+                },
+                "nextUnit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46753828/relationships/next-unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/46753828/next-unit"
+                    }
+                }
+            }
+        },
+        {
+            "id": "46708538",
+            "type": "libraryEntries",
+            "links": {
+                "self": "https://kitsu.io/api/edge/library-entries/46708538"
+            },
+            "attributes": {
+                "createdAt": "2019-10-06T12:52:11.167Z",
+                "updatedAt": "2019-10-08T01:10:05.266Z",
+                "status": "completed",
+                "progress": 1,
+                "volumesOwned": 0,
+                "reconsuming": false,
+                "reconsumeCount": 0,
+                "notes": null,
+                "private": false,
+                "reactionSkipped": "unskipped",
+                "progressedAt": "2019-10-08T01:10:05.263Z",
+                "startedAt": "2019-10-06T12:52:11.167Z",
+                "finishedAt": "2019-10-08T01:10:05.264Z",
+                "rating": "3.5",
+                "ratingTwenty": 14
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46708538/relationships/user",
+                        "related": "https://kitsu.io/api/edge/library-entries/46708538/user"
+                    }
+                },
+                "anime": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46708538/relationships/anime",
+                        "related": "https://kitsu.io/api/edge/library-entries/46708538/anime"
+                    }
+                },
+                "manga": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46708538/relationships/manga",
+                        "related": "https://kitsu.io/api/edge/library-entries/46708538/manga"
+                    }
+                },
+                "drama": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46708538/relationships/drama",
+                        "related": "https://kitsu.io/api/edge/library-entries/46708538/drama"
+                    }
+                },
+                "review": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46708538/relationships/review",
+                        "related": "https://kitsu.io/api/edge/library-entries/46708538/review"
+                    }
+                },
+                "mediaReaction": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46708538/relationships/media-reaction",
+                        "related": "https://kitsu.io/api/edge/library-entries/46708538/media-reaction"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46708538/relationships/media",
+                        "related": "https://kitsu.io/api/edge/library-entries/46708538/media"
+                    }
+                },
+                "unit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46708538/relationships/unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/46708538/unit"
+                    }
+                },
+                "nextUnit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/46708538/relationships/next-unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/46708538/next-unit"
+                    }
+                }
+            }
+        },
+        {
+            "id": "36121926",
+            "type": "libraryEntries",
+            "links": {
+                "self": "https://kitsu.io/api/edge/library-entries/36121926"
+            },
+            "attributes": {
+                "createdAt": "2018-10-15T01:26:28.222Z",
+                "updatedAt": "2018-10-15T01:26:28.222Z",
+                "status": "completed",
+                "progress": 1,
+                "volumesOwned": 0,
+                "reconsuming": false,
+                "reconsumeCount": 0,
+                "notes": null,
+                "private": false,
+                "reactionSkipped": "unskipped",
+                "progressedAt": null,
+                "startedAt": null,
+                "finishedAt": null,
+                "rating": "0.0",
+                "ratingTwenty": null
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121926/relationships/user",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121926/user"
+                    }
+                },
+                "anime": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121926/relationships/anime",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121926/anime"
+                    }
+                },
+                "manga": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121926/relationships/manga",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121926/manga"
+                    }
+                },
+                "drama": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121926/relationships/drama",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121926/drama"
+                    }
+                },
+                "review": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121926/relationships/review",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121926/review"
+                    }
+                },
+                "mediaReaction": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121926/relationships/media-reaction",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121926/media-reaction"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121926/relationships/media",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121926/media"
+                    }
+                },
+                "unit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121926/relationships/unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121926/unit"
+                    }
+                },
+                "nextUnit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121926/relationships/next-unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121926/next-unit"
+                    }
+                }
+            }
+        },
+        {
+            "id": "36121959",
+            "type": "libraryEntries",
+            "links": {
+                "self": "https://kitsu.io/api/edge/library-entries/36121959"
+            },
+            "attributes": {
+                "createdAt": "2018-10-15T01:26:42.953Z",
+                "updatedAt": "2018-10-15T01:26:42.953Z",
+                "status": "completed",
+                "progress": 4,
+                "volumesOwned": 0,
+                "reconsuming": false,
+                "reconsumeCount": 0,
+                "notes": null,
+                "private": false,
+                "reactionSkipped": "unskipped",
+                "progressedAt": null,
+                "startedAt": "2018-04-19T00:00:00.000Z",
+                "finishedAt": "2018-05-05T00:00:00.000Z",
+                "rating": "4.0",
+                "ratingTwenty": 16
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121959/relationships/user",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121959/user"
+                    }
+                },
+                "anime": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121959/relationships/anime",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121959/anime"
+                    }
+                },
+                "manga": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121959/relationships/manga",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121959/manga"
+                    }
+                },
+                "drama": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121959/relationships/drama",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121959/drama"
+                    }
+                },
+                "review": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121959/relationships/review",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121959/review"
+                    }
+                },
+                "mediaReaction": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121959/relationships/media-reaction",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121959/media-reaction"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121959/relationships/media",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121959/media"
+                    }
+                },
+                "unit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121959/relationships/unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121959/unit"
+                    }
+                },
+                "nextUnit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121959/relationships/next-unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121959/next-unit"
+                    }
+                }
+            }
+        },
+        {
+            "id": "36121906",
+            "type": "libraryEntries",
+            "links": {
+                "self": "https://kitsu.io/api/edge/library-entries/36121906"
+            },
+            "attributes": {
+                "createdAt": "2018-10-15T01:26:18.163Z",
+                "updatedAt": "2018-10-15T01:26:18.163Z",
+                "status": "completed",
+                "progress": 1,
+                "volumesOwned": 0,
+                "reconsuming": false,
+                "reconsumeCount": 0,
+                "notes": null,
+                "private": false,
+                "reactionSkipped": "unskipped",
+                "progressedAt": null,
+                "startedAt": null,
+                "finishedAt": "2018-03-15T00:00:00.000Z",
+                "rating": "4.0",
+                "ratingTwenty": 16
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121906/relationships/user",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121906/user"
+                    }
+                },
+                "anime": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121906/relationships/anime",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121906/anime"
+                    }
+                },
+                "manga": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121906/relationships/manga",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121906/manga"
+                    }
+                },
+                "drama": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121906/relationships/drama",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121906/drama"
+                    }
+                },
+                "review": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121906/relationships/review",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121906/review"
+                    }
+                },
+                "mediaReaction": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121906/relationships/media-reaction",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121906/media-reaction"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121906/relationships/media",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121906/media"
+                    }
+                },
+                "unit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121906/relationships/unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121906/unit"
+                    }
+                },
+                "nextUnit": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/library-entries/36121906/relationships/next-unit",
+                        "related": "https://kitsu.io/api/edge/library-entries/36121906/next-unit"
+                    }
+                }
+            }
+        }
+    ],
+    "meta": {
+        "count": 498
+    },
+    "links": {
+        "first": "https://kitsu.io/api/edge/users/391768/library-entries?filter%5Bkind%5D=anime&page%5Blimit%5D=10&page%5Boffset%5D=0",
+        "next": "https://kitsu.io/api/edge/users/391768/library-entries?filter%5Bkind%5D=anime&page%5Blimit%5D=10&page%5Boffset%5D=10",
+        "last": "https://kitsu.io/api/edge/users/391768/library-entries?filter%5Bkind%5D=anime&page%5Blimit%5D=10&page%5Boffset%5D=488"
+    }
+}

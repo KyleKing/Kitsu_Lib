@@ -1,68 +1,19 @@
 """Main application."""
 
-# See: https://codebeat.co/projects/github-com-kyleking-kitsu-library-availability-master
-
 import csv
-import json
 import logging
-import time
 from urllib.parse import urlparse
 
-import requests
+from icecream import ic
 
-try:
-    from icecream import ic
-except ImportError:  # Graceful fall back if IceCream isn't installed.
-    ic = lambda *a: None if not a else (a[0] if len(a) == 1 else a)  # noqa: E731
+from .kitsu_helpers import get_data, get_kitsu, rm_brs
 
-logging.basicConfig(filename='wip.log', filemode='w', level=logging.DEBUG)
-
+logging.basicConfig(filename='app_debug.log', filemode='w', level=logging.DEBUG)
 
 # TODO: Write to files in a folder
 # Step 2: read files and create summary
 # Load into dataframe and spit out CSV with preferred filter
 # Creating running list of genres adding Nones to the records until all the same length
-
-
-def rm_brs(line):
-    """Replace all whitespace (line breaks, etc) with spaces."""  # noqa: DAR101,DAR201
-    return ' '.join(line.split())
-
-
-def get_data(url, kwargs=None, debug=False):
-    """Return response from generic get request for data object.
-
-    Args:
-        url: URL for request
-        kwargs: Additional arguments to pass to `requests.get()`. Default is None
-        debug: if True, will print additional output to STDOUT. Default is False
-
-    Returns:
-        dict: request response
-
-    Raises:
-        json.decoder.JSONDecodeError: if response cannot be decoded to JSOn
-
-    """
-    if debug:
-        logging.debug(ic(f'GET: `{url}`'))
-    if kwargs is None:
-        kwargs = {}
-    raw = requests.get(url, kwargs)
-    try:
-        resp = raw.json()
-        if debug:
-            logging.debug(ic(resp))
-        time.sleep(0.1)
-        return resp
-    except json.decoder.JSONDecodeError as error:
-        ic(f"{'=' * 80}\nFailed to parse response from: {url}\n{raw.text}\n\nerror:{error}")
-        raise
-
-
-def get_kitsu(endpoint, debug=False):
-    """Make request against Kitsu API."""
-    return get_data(f'https://kitsu.io/api/edge/{endpoint}', debug=debug)
 
 
 def run(username=None):

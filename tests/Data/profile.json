@@ -1,0 +1,198 @@
+{
+    "data": [
+        {
+            "id": "391768",
+            "type": "users",
+            "links": {
+                "self": "https://kitsu.io/api/edge/users/391768"
+            },
+            "attributes": {
+                "createdAt": "2018-10-14T17:15:32.619Z",
+                "updatedAt": "2020-04-16T23:10:53.403Z",
+                "name": "likesbikes",
+                "pastNames": [
+                    "KyleKing"
+                ],
+                "slug": null,
+                "about": "About Section",
+                "location": "United States",
+                "waifuOrHusbando": "Waifu",
+                "followersCount": 39,
+                "followingCount": 125,
+                "lifeSpentOnAnime": 0,
+                "birthday": null,
+                "gender": "male",
+                "commentsCount": 1,
+                "favoritesCount": 27,
+                "likesGivenCount": 20,
+                "reviewsCount": 0,
+                "likesReceivedCount": 4,
+                "postsCount": 8,
+                "ratingsCount": 179,
+                "mediaReactionsCount": 9,
+                "proExpiresAt": null,
+                "title": null,
+                "profileCompleted": true,
+                "feedCompleted": true,
+                "website": null,
+                "proTier": null,
+                "avatar": {
+                    "tiny": "https://media.kitsu.io/users/avatars/391768/tiny.jpeg?1541874239",
+                    "small": "https://media.kitsu.io/users/avatars/391768/small.jpeg?1541874239",
+                    "medium": "https://media.kitsu.io/users/avatars/391768/medium.jpeg?1541874239",
+                    "large": "https://media.kitsu.io/users/avatars/391768/large.jpeg?1541874239",
+                    "original": "https://media.kitsu.io/users/avatars/391768/original.jpeg?1541874239",
+                    "meta": {
+                        "dimensions": {
+                            "tiny": {
+                                "width": 40,
+                                "height": 40
+                            },
+                            "small": {
+                                "width": 64,
+                                "height": 64
+                            },
+                            "medium": {
+                                "width": 100,
+                                "height": 100
+                            },
+                            "large": {
+                                "width": 200,
+                                "height": 200
+                            }
+                        }
+                    }
+                },
+                "coverImage": {
+                    "tiny": "https://media.kitsu.io/users/cover_images/391768/tiny.jpg?1546112275",
+                    "small": "https://media.kitsu.io/users/cover_images/391768/small.jpg?1546112275",
+                    "large": "https://media.kitsu.io/users/cover_images/391768/large.jpg?1546112275",
+                    "original": "https://media.kitsu.io/users/cover_images/391768/original.jpeg?1546112275",
+                    "meta": {
+                        "dimensions": {
+                            "tiny": {
+                                "width": 840,
+                                "height": 200
+                            },
+                            "small": {
+                                "width": 1680,
+                                "height": 400
+                            },
+                            "large": {
+                                "width": 3360,
+                                "height": 800
+                            }
+                        }
+                    }
+                },
+                "status": "registered",
+                "subscribedToNewsletter": true
+            },
+            "relationships": {
+                "waifu": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/waifu",
+                        "related": "https://kitsu.io/api/edge/users/391768/waifu"
+                    }
+                },
+                "pinnedPost": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/pinned-post",
+                        "related": "https://kitsu.io/api/edge/users/391768/pinned-post"
+                    }
+                },
+                "followers": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/followers",
+                        "related": "https://kitsu.io/api/edge/users/391768/followers"
+                    }
+                },
+                "following": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/following",
+                        "related": "https://kitsu.io/api/edge/users/391768/following"
+                    }
+                },
+                "blocks": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/blocks",
+                        "related": "https://kitsu.io/api/edge/users/391768/blocks"
+                    }
+                },
+                "linkedAccounts": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/linked-accounts",
+                        "related": "https://kitsu.io/api/edge/users/391768/linked-accounts"
+                    }
+                },
+                "profileLinks": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/profile-links",
+                        "related": "https://kitsu.io/api/edge/users/391768/profile-links"
+                    }
+                },
+                "userRoles": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/user-roles",
+                        "related": "https://kitsu.io/api/edge/users/391768/user-roles"
+                    }
+                },
+                "libraryEntries": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/library-entries",
+                        "related": "https://kitsu.io/api/edge/users/391768/library-entries"
+                    }
+                },
+                "favorites": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/favorites",
+                        "related": "https://kitsu.io/api/edge/users/391768/favorites"
+                    }
+                },
+                "reviews": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/reviews",
+                        "related": "https://kitsu.io/api/edge/users/391768/reviews"
+                    }
+                },
+                "stats": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/stats",
+                        "related": "https://kitsu.io/api/edge/users/391768/stats"
+                    }
+                },
+                "notificationSettings": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/notification-settings",
+                        "related": "https://kitsu.io/api/edge/users/391768/notification-settings"
+                    }
+                },
+                "oneSignalPlayers": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/one-signal-players",
+                        "related": "https://kitsu.io/api/edge/users/391768/one-signal-players"
+                    }
+                },
+                "categoryFavorites": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/category-favorites",
+                        "related": "https://kitsu.io/api/edge/users/391768/category-favorites"
+                    }
+                },
+                "quotes": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/users/391768/relationships/quotes",
+                        "related": "https://kitsu.io/api/edge/users/391768/quotes"
+                    }
+                }
+            }
+        }
+    ],
+    "meta": {
+        "count": 1
+    },
+    "links": {
+        "first": "https://kitsu.io/api/edge/users?filter%5Bname%5D=likesbikes&page%5Blimit%5D=10&page%5Boffset%5D=0",
+        "last": "https://kitsu.io/api/edge/users?filter%5Bname%5D=likesbikes&page%5Blimit%5D=10&page%5Boffset%5D=0"
+    }
+}

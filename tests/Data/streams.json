@@ -1,0 +1,171 @@
+{
+    "data": [
+        {
+            "id": "2259",
+            "type": "streamingLinks",
+            "links": {
+                "self": "https://kitsu.io/api/edge/streaming-links/2259"
+            },
+            "attributes": {
+                "createdAt": "2018-02-07T01:47:32.591Z",
+                "updatedAt": "2018-02-07T01:47:32.591Z",
+                "url": "https://www.amazon.com/gp/video/detail/B06VW8K7ZJ/",
+                "subs": [
+                    "en"
+                ],
+                "dubs": [
+                    "ja"
+                ]
+            },
+            "relationships": {
+                "streamer": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/streaming-links/2259/relationships/streamer",
+                        "related": "https://kitsu.io/api/edge/streaming-links/2259/streamer"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/streaming-links/2259/relationships/media",
+                        "related": "https://kitsu.io/api/edge/streaming-links/2259/media"
+                    }
+                }
+            }
+        },
+        {
+            "id": "2260",
+            "type": "streamingLinks",
+            "links": {
+                "self": "https://kitsu.io/api/edge/streaming-links/2260"
+            },
+            "attributes": {
+                "createdAt": "2018-02-07T01:48:06.019Z",
+                "updatedAt": "2018-02-07T01:48:06.019Z",
+                "url": "http://www.crunchyroll.com/cowboy-bebop",
+                "subs": [
+                    "en"
+                ],
+                "dubs": [
+                    "ja"
+                ]
+            },
+            "relationships": {
+                "streamer": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/streaming-links/2260/relationships/streamer",
+                        "related": "https://kitsu.io/api/edge/streaming-links/2260/streamer"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/streaming-links/2260/relationships/media",
+                        "related": "https://kitsu.io/api/edge/streaming-links/2260/media"
+                    }
+                }
+            }
+        },
+        {
+            "id": "2261",
+            "type": "streamingLinks",
+            "links": {
+                "self": "https://kitsu.io/api/edge/streaming-links/2261"
+            },
+            "attributes": {
+                "createdAt": "2018-02-07T01:48:40.389Z",
+                "updatedAt": "2018-02-07T01:48:40.389Z",
+                "url": "https://www.hulu.com/cowboy-bebop",
+                "subs": [
+                    "en"
+                ],
+                "dubs": [
+                    "ja"
+                ]
+            },
+            "relationships": {
+                "streamer": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/streaming-links/2261/relationships/streamer",
+                        "related": "https://kitsu.io/api/edge/streaming-links/2261/streamer"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/streaming-links/2261/relationships/media",
+                        "related": "https://kitsu.io/api/edge/streaming-links/2261/media"
+                    }
+                }
+            }
+        },
+        {
+            "id": "2262",
+            "type": "streamingLinks",
+            "links": {
+                "self": "https://kitsu.io/api/edge/streaming-links/2262"
+            },
+            "attributes": {
+                "createdAt": "2018-02-07T01:49:02.149Z",
+                "updatedAt": "2018-02-07T01:49:02.149Z",
+                "url": "http://www.funimation.com/shows/43625",
+                "subs": [
+                    "en"
+                ],
+                "dubs": [
+                    "ja"
+                ]
+            },
+            "relationships": {
+                "streamer": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/streaming-links/2262/relationships/streamer",
+                        "related": "https://kitsu.io/api/edge/streaming-links/2262/streamer"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/streaming-links/2262/relationships/media",
+                        "related": "https://kitsu.io/api/edge/streaming-links/2262/media"
+                    }
+                }
+            }
+        },
+        {
+            "id": "2296",
+            "type": "streamingLinks",
+            "links": {
+                "self": "https://kitsu.io/api/edge/streaming-links/2296"
+            },
+            "attributes": {
+                "createdAt": "2018-02-07T18:01:43.980Z",
+                "updatedAt": "2018-02-07T18:01:43.980Z",
+                "url": "http://tubitv.com/series/2052/cowboy_bebop",
+                "subs": [
+                    "en"
+                ],
+                "dubs": [
+                    "ja"
+                ]
+            },
+            "relationships": {
+                "streamer": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/streaming-links/2296/relationships/streamer",
+                        "related": "https://kitsu.io/api/edge/streaming-links/2296/streamer"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https://kitsu.io/api/edge/streaming-links/2296/relationships/media",
+                        "related": "https://kitsu.io/api/edge/streaming-links/2296/media"
+                    }
+                }
+            }
+        }
+    ],
+    "meta": {
+        "count": 5
+    },
+    "links": {
+        "first": "https://kitsu.io/api/edge/anime/1/streaming-links?page%5Blimit%5D=10&page%5Boffset%5D=0",
+        "last": "https://kitsu.io/api/edge/anime/1/streaming-links?page%5Blimit%5D=10&page%5Boffset%5D=0"
+    }
+}
