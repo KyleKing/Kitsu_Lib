@@ -1,4 +1,4 @@
-"""Main application."""
+"""Main scraper interface."""
 
 import logging
 

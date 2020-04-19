@@ -1,7 +1,7 @@
 """Final test alphabetically (zz) to catch general integration cases."""
 
 import toml
-from dash_charts import __version__
+from kitsu_library_availability import __version__
 
 
 def test_version():
