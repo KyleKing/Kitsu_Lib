@@ -10,6 +10,7 @@ python = "^3.7, !=3.8"
 dash_charts = {git = "https://github.com/KyleKing/dash_charts.git"}
 dataset = "*"
 icecream = "*"
+pyhumps = "*"
 requests = "*"
 
 [tool.poetry.dev-dependencies]

@@ -4,10 +4,13 @@ Mostly just the quick start guide for now
 
 """
 
+import json
 from pathlib import Path
 
 import dataset
+import humps
 from icecream import ic
+from kitsu_library_availability.api_helpers import STORE_PATH
 
 WIP_DIR = Path(__file__).parent / 'WIP-Untracked'
 
@@ -69,5 +72,44 @@ def quick_start_guide():
     ic(db['user'].distinct('country'))
 
 
+def create_db(database_path):
+    if database_path.is_file():
+        database_path.unlink()
+
+    db = dataset.connect(f'sqlite:///{database_path}')
+    table = db['anime']
+
+    all_data = json.loads((STORE_PATH / 'all_data.json').read_text())
+    for entry in all_data['data']:
+        # Lists are unsupported types, need to unwrap and remove dashes
+        categories = entry.pop('categories')
+        for category in categories:
+            entry[humps.camelize(category)] = True
+        ic(entry)
+
+        table.insert(entry)
+
+    return db
+
+
+def inspect_db(db):
+    ic(db.tables, db['anime'].columns, len(db['anime']))
+    ic([*db['anime'].all()][:2])
+
+
 if __name__ == '__main__':
-    quick_start_guide()
+    # quick_start_guide()
+
+    # Experiment with loading JSON into database. Use data created by early version of ./run_scraper.py
+    create = False
+
+    database_path = (WIP_DIR / 'dev_library.db').resolve()
+    if create:
+        db = create_db(database_path)
+        inspect_db(db)
+    else:
+        db = dataset.connect(f'sqlite:///{database_path}')
+
+    table = db['anime']
+    ic([*table.find(status={'<>': 'not_a_status'}, averageRating={'<=': 85})])
+    ic([*table.distinct('status')])

@@ -69,6 +69,6 @@ def merge_anime_info(anime_entry_data, anime):
     }
     for attr, keys in [(entry_attr, entry_keys), (anime_attr, anime_keys)]:
         for key in keys:
-            data[key] = attr[key]
+            data[key] = attr[key] if key in attr else None
 
     return data
