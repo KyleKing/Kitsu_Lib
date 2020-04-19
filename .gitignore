@@ -108,3 +108,5 @@ venv.bak/
 .vscode
 *.csv
 *.numbers
+
+/kitsu_library_availability/local_storage*/*.json

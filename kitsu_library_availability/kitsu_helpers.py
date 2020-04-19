@@ -1,8 +1,9 @@
-"""Helpers for the Kitsu library availability package."""
+"""General helpers for the Kitsu_library_availability package."""
 
 import json
 import logging
 import time
+from json.decoder import JSONDecodeError
 from pathlib import Path
 
 import requests
@@ -37,7 +38,7 @@ def get_data(url, kwargs=None, debug=False):
         dict: request response
 
     Raises:
-        json.decoder.JSONDecodeError: if response cannot be decoded to JSON
+        JSONDecodeError: if response cannot be decoded to JSON
 
     """
     if debug:
@@ -51,20 +52,6 @@ def get_data(url, kwargs=None, debug=False):
             logging.debug(ic(resp))
         time.sleep(0.1)
         return resp
-    except json.decoder.JSONDecodeError as error:
+    except JSONDecodeError as error:
         ic(f"{'=' * 80}\nFailed to parse response from: {url}\n{raw.text}\n\nerror:{error}")
         raise
-
-
-def get_kitsu(endpoint, *kwargs):
-    """Make request against Kitsu API.
-
-    Args:
-        endpoint: URL subpath to be appended to base Kitsu API URL
-        kwargs: Additional keyword arguments passed to `get_data()`
-
-    Returns:
-        dict: request response
-
-    """
-    return get_data(f'https://kitsu.io/api/edge/{endpoint}', *kwargs)
