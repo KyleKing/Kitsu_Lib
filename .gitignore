@@ -103,10 +103,18 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# =============
-# Custom Ignore
-.vscode
+# DoIt
+.doit*
+
+# ======
+# Custom
+.vscode/*
+*.sqlite
+*.html
 *.csv
 *.numbers
+
+coverage.json
+docs/*
 
 /kitsu_library_availability/local_storage*/*.json

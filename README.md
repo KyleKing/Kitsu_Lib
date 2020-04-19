@@ -1,10 +1,10 @@
-# Kitsu-Library-Where-Stream
+# Kitsu_Library_Availability
 
-> Check streaming availability for anime in a user's Kitsu library
+While originally only built to find legal streaming links for a user's Kitsu watch list, I have since added a dashboard with Plotly/Dash to filter for ratings, categories, and other attributes to help choose what to watch.
 
-The app queries the Kitsu API for a specified user's anime library, then creates a CSV with the anime and any streaming links that Kitsu reports
+The Python package uses the [KitsuAPI](https://kitsu.docs.apiary.io/#) and tries to cache as much as possible to avoid too many calls
 
-Open an issue if you have any questions or issues.
+Open an issue if you have any questions or run into any issues
 
 ## Quick Start
 
@@ -19,7 +19,7 @@ poetry run python main.py my_username
 
 ## Testing
 
-Other useful scripts for testing, documentation, and more:
+Examples of other useful commands for testing, documentation, and more:
 
 ```sh
 poetry run ptw -- -m "not CHROME"
@@ -27,6 +27,9 @@ poetry run doit run test
 poetry run doit
 ```
 
-## Links
+## Dev Notes
 
-Also checkout the AniList GraphQL API: https://anilist.gitbook.io/anilist-apiv2-docs/
+Other notes related to development:
+
+- See various TODO/FIXME comments in code
+- May want to look into the AniList GraphQL API: https://anilist.gitbook.io/anilist-apiv2-docs/ or the APIs used in: https://github.com/wopian/tracker-killer#anime

@@ -1,4 +1,4 @@
-"""General helpers for the Kitsu_library_availability package."""
+"""General helpers for the kitsu_library_availability package."""
 
 import json
 import logging
