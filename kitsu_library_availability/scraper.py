@@ -2,15 +2,21 @@
 
 import logging
 import time
+from pathlib import Path
 
 from .analysis import create_kitsu_database, merge_anime_info
 from .api_helpers import get_anime, get_library, get_streams, get_user_id, selective_request
 from .cache_helpers import CACHE_DIR, KITSU_DATA, initialize_cache, pretty_dump_json
 from .kitsu_helpers import export_table_as_csv
 
+LOG_DIR = Path(__file__).parent / 'logs'
+"""Temporary log directory to accrue log files."""
+
+LOG_DIR.mkdir(exist_ok=True)
+
 logging.basicConfig(
     filemode='w',
-    filename=f'app_debug-{time.time()}.log',
+    filename=LOG_DIR / f'app_debug-{time.time()}.log',
     format='%(asctime)s\t%(levelname)s\t%(filename)s:%(lineno)d\t%(funcName)s():\t%(message)s',
     level=logging.DEBUG,
 )
@@ -37,7 +43,8 @@ def scrape_kitsu_unsafe(username=None, limit=None):
         for anime_entry in this_lib_page['data']:
             anime = get_anime(anime_entry['relationships']['anime']['links']['related'])
             streams = get_streams(anime['data']['relationships']['streamingLinks']['links']['related'])
-            all_data.append(merge_anime_info(anime_entry, anime, streams))  # FIXME: Improve how data is collected
+            # FIXME: Store these datasets in three tables. See README for notes on flattening the JSON
+            all_data.append(merge_anime_info(anime_entry, anime, streams))
 
         # Check if there is a 'next' URL available or if the iterations have reached their limit
         index += 1
@@ -56,7 +63,7 @@ def scrape_kitsu_unsafe(username=None, limit=None):
     create_kitsu_database(summary_file_path)
 
     csv_filename = CACHE_DIR / '_database_kitsu.csv'
-    export_table_as_csv(csv_filename, KITSU_DATA.db['kitsu'])
+    export_table_as_csv(csv_filename, KITSU_DATA.db.load_table('kitsu'))
 
 
 def scrape_kitsu(username=None, limit=None):

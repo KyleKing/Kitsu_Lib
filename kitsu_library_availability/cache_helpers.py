@@ -1,13 +1,17 @@
 """Helpers for managing the JSON response cache to reduce load on API.
 
-Notes on dataset
+Notes on dataset. Full documentation: https://dataset.readthedocs.io/en/latest/api.html
 
 ```py
+db = KITSU_DATA.db
+db.create_table('anime', primary_id='slug', primary_type=db.types.text)
+db.load_table('anime')  # Fails if table does not exist
+
 ic(db.tables, db['anime'].columns, len(db['anime']))
 ic([*db['anime'].all()][:2])
 
 table = db['anime']
-# # FIXME: id isn't an allowed value
+# # FIXME: `id` is a Python reserved variable name. Shouldn't this be `_id`?
 # ic([*table.find(id=[1, 3, 7])])
 # ic([*table.find_one(id=4)])
 ic([*table.find(status='completed')])
@@ -18,7 +22,6 @@ ic([*table.distinct('status')])
 # Other
 table.update(dict(name='John Doe', age=47), ['name'])
 ```
-
 
 """
 
@@ -87,7 +90,7 @@ def pretty_dump_json(filename, obj):
 
 def initialize_cache():
     """Ensure that the directory and database exist. Remove files from database if manually removed."""
-    table = FILE_DATA.db['files']
+    table = FILE_DATA.db.create_table('files')
 
     removed_files = []
     for row in table:
@@ -109,7 +112,7 @@ def match_url_in_cache(url):
         list: list of match object with keys of the SQL table
 
     """
-    return [*FILE_DATA.db['files'].find(url=url)]
+    return [*FILE_DATA.db.load_table('files').find(url=url)]
 
 
 def store_response(prefix, url, obj):
@@ -129,5 +132,5 @@ def store_response(prefix, url, obj):
     if len(matches) > 0:
         raise RuntimeError(f'Already have an entry for this URL (`{url}`): {matches}')
     # Update the database and store the file
-    FILE_DATA.db['files'].insert(new_row)
+    FILE_DATA.db.load_table('files').insert(new_row)
     pretty_dump_json(filename, obj)

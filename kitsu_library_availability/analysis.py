@@ -130,14 +130,16 @@ def create_kitsu_database(summary_file_path):
         summary_file_path: path to the JSON summary file
 
     """
-    table = KITSU_DATA.db['kitsu']
+    table = KITSU_DATA.db.create_table('kitsu', primary_id='slug', primary_type=KITSU_DATA.db.types.text)
     table.drop()  # Clear database
 
     # Insert each entry from JSON file into the table
     all_data = json.loads(Path(summary_file_path).read_text())
+    entries = []
     for entry in all_data['data']:
         # Lists are unsupported types, need to unwrap and remove dashes
         categories = entry.pop('categories')
         for category in categories:
             entry[humps.camelize(category)] = True
-        table.insert(entry)
+        entries.append(entry)
+    table.insert_many(entries)  # much faster than insert()

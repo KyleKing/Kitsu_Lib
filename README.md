@@ -46,6 +46,12 @@ Tasks:
     - Or use flatdict / `from sklearn.feature_extraction import DictVectorizer` ([see issue](https://github.com/scikit-learn/scikit-learn/issues/7652#issuecomment-253649565))
   - Create Dash table to filter by streaming platform, category, and rating
     - Use pandas to load the tables into memory
+  - ex_px variation - notes:
+    - Along bottom of screen - file select - give keyword name to select from dropdowns for each px app/tab
+      - This way multiple data sets can be loaded in PD DataFrames
+    - In dropdown option of default or loaded data
+    - Data should be tidy, then regular dropdown can be used
+    - Should show table with data below input
   - Start implementation of exploratory Dash app
     - Make sure relevant data is in Tidy data format - connect to the px demo app from dash_charts
     - Create custom views. Could be good to see distribution of scores for an anime and where my score falls
@@ -69,12 +75,13 @@ Latest coverage table
 | File | Statements | Missing | Excluded | Coverage |
 | --: | --: | --: | --: | --: |
 | `kitsu_library_availability/__init__.py` | 3 | 0 | 0 | 100.0 |
-| `kitsu_library_availability/analysis.py` | 54 | 54 | 0 | 0.0 |
+| `kitsu_library_availability/analysis.py` | 56 | 56 | 0 | 0.0 |
 | `kitsu_library_availability/api_helpers.py` | 57 | 57 | 0 | 0.0 |
+| `kitsu_library_availability/app.py` | 3 | 3 | 0 | 0.0 |
 | `kitsu_library_availability/cache_helpers.py` | 43 | 43 | 0 | 0.0 |
 | `kitsu_library_availability/kitsu_helpers.py` | 9 | 5 | 0 | 44.4 |
 | `kitsu_library_availability/scraper.py` | 41 | 41 | 0 | 0.0 |
 
-Generated on: 2020-04-19T13:22:31.180614
+Generated on: 2020-04-19T16:37:07.778143
 
 <!-- /COVERAGE -->
