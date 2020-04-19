@@ -210,58 +210,21 @@ description = "A Python framework for building reactive web-apps. Developed by P
 name = "dash"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
-version = "1.9.1"
+version = "1.11.0"
 
 [package.dependencies]
 Flask = ">=1.0.2"
-dash-core-components = "1.8.1"
-dash-html-components = "1.0.2"
-dash-table = "4.6.1"
-dash_renderer = "1.2.4"
+dash-core-components = "1.9.1"
+dash-html-components = "1.0.3"
+dash-table = "4.6.2"
+dash_renderer = "1.4.0"
 flask-compress = "*"
 future = "*"
 plotly = "*"
 
-[package.dependencies.beautifulsoup4]
-optional = true
-version = "*"
-
-[package.dependencies.lxml]
-optional = true
-version = "*"
-
-[package.dependencies.percy]
-optional = true
-version = "*"
-
-[package.dependencies.pytest]
-optional = true
-version = "*"
-
-[package.dependencies.pytest-mock]
-optional = true
-version = "*"
-
-[package.dependencies.pytest-sugar]
-optional = true
-version = "*"
-
-[package.dependencies.requests]
-extras = ["security"]
-optional = true
-version = "*"
-
-[package.dependencies.selenium]
-optional = true
-version = ">=3.141.0"
-
-[package.dependencies.waitress]
-optional = true
-version = "*"
-
 [package.extras]
-dev = ["dash_flow_example (0.0.5)", "dash-dangerously-set-inner-html", "mock", "flake8", "PyYAML (>=5.1.1)", "fire", "coloredlogs", "pylint (1.9.4)", "virtualenv", "pylint (2.3.1)", "astroid (2.2.5)"]
-testing = ["pytest", "pytest-sugar", "pytest-mock", "lxml", "selenium (>=3.141.0)", "percy", "requests", "beautifulsoup4", "waitress"]
+dev = ["dash_flow_example (0.0.5)", "dash-dangerously-set-inner-html", "flake8 (3.7.9)", "PyYAML (5.3)", "fire (0.2.1)", "coloredlogs (14.0)", "pylint (1.9.4)", "mock (3.0.5)", "virtualenv (20.0.10)", "pylint (2.3.1)", "astroid (2.2.5)", "mock (4.0.1)", "black (19.10b0)"]
+testing = ["pytest-sugar (0.9.2)", "pytest-mock (2.0.0)", "lxml (4.5.0)", "selenium (3.141.0)", "percy (2.0.2)", "requests (2.21.0)", "beautifulsoup4 (4.8.2)", "waitress (1.4.3)", "pytest (4.6.9)", "pytest (5.3.5)"]
 
 [[package]]
 category = "main"
@@ -300,14 +263,13 @@ scipy = "*"
 reference = "c2dd53a896cd022e9b10856c740236d308527601"
 type = "git"
 url = "https://github.com/KyleKing/dash_charts.git"
-
 [[package]]
 category = "main"
 description = "Core component suite for Dash"
 name = "dash-core-components"
 optional = false
 python-versions = "*"
-version = "1.8.1"
+version = "1.9.1"
 
 [[package]]
 category = "dev"
@@ -393,14 +355,13 @@ version = "*, ^1.9"
 reference = "2da303ceeb9e381b70f6d1e5452409a9dc18dd8e"
 type = "git"
 url = "https://github.com/KyleKing/dash_dev.git"
-
 [[package]]
 category = "main"
 description = "Vanilla HTML components for Dash"
 name = "dash-html-components"
 optional = false
 python-versions = "*"
-version = "1.0.2"
+version = "1.0.3"
 
 [[package]]
 category = "main"
@@ -408,7 +369,7 @@ description = "Front-end component renderer for Dash"
 name = "dash-renderer"
 optional = false
 python-versions = "*"
-version = "1.2.4"
+version = "1.4.0"
 
 [[package]]
 category = "main"
@@ -416,7 +377,7 @@ description = "Dash table"
 name = "dash-table"
 optional = false
 python-versions = "*"
-version = "4.6.1"
+version = "4.6.2"
 
 [[package]]
 category = "main"
@@ -1159,20 +1120,6 @@ jinja2 = ">=2.4"
 
 [[package]]
 category = "dev"
-description = "Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API."
-name = "lxml"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, != 3.4.*"
-version = "4.5.0"
-
-[package.extras]
-cssselect = ["cssselect (>=0.7)"]
-html5 = ["html5lib"]
-htmlsoup = ["beautifulsoup4"]
-source = ["Cython (>=0.29.7)"]
-
-[[package]]
-category = "dev"
 description = "Thread-based interface to file system observation primitives."
 marker = "sys_platform == \"darwin\""
 name = "macfsevents"
@@ -1344,17 +1291,6 @@ version = "0.10.0"
 
 [package.dependencies]
 flake8-polyfill = ">=1.0.2,<2"
-
-[[package]]
-category = "dev"
-description = "Python client library for visual regression testing with Percy (https://percy.io)."
-name = "percy"
-optional = false
-python-versions = "*"
-version = "2.0.2"
-
-[package.dependencies]
-requests = ">=2.14.0"
 
 [[package]]
 category = "main"
@@ -1550,33 +1486,6 @@ pytest = ">=2.9.0"
 
 [[package]]
 category = "dev"
-description = "Thin-wrapper around the mock package for easier use with pytest"
-name = "pytest-mock"
-optional = false
-python-versions = ">=3.5"
-version = "3.1.0"
-
-[package.dependencies]
-pytest = ">=2.7"
-
-[package.extras]
-dev = ["pre-commit", "tox", "pytest-asyncio"]
-
-[[package]]
-category = "dev"
-description = "pytest-sugar is a plugin for pytest that changes the default look and feel of pytest (e.g. progressbar, show tests that fail instantly)."
-name = "pytest-sugar"
-optional = false
-python-versions = "*"
-version = "0.9.2"
-
-[package.dependencies]
-packaging = ">=14.1"
-pytest = ">=2.9"
-termcolor = ">=1.1.0"
-
-[[package]]
-category = "dev"
 description = "selects tests affected by changed files and methods"
 name = "pytest-testmon"
 optional = false
@@ -1713,17 +1622,6 @@ version = "1.4.1"
 numpy = ">=1.13.3"
 
 [[package]]
-category = "dev"
-description = "Python bindings for Selenium"
-name = "selenium"
-optional = false
-python-versions = "*"
-version = "3.141.0"
-
-[package.dependencies]
-urllib3 = "*"
-
-[[package]]
 category = "main"
 description = "Python 2 and 3 compatibility utilities"
 name = "six"
@@ -1794,14 +1692,6 @@ version = "1.32.0"
 [package.dependencies]
 pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 six = ">=1.10.0"
-
-[[package]]
-category = "dev"
-description = "ANSII Color formatting for output in terminal."
-name = "termcolor"
-optional = false
-python-versions = "*"
-version = "1.1.0"
 
 [[package]]
 category = "dev"
@@ -1881,18 +1771,6 @@ version = "1.4"
 
 [[package]]
 category = "dev"
-description = "Waitress WSGI server"
-name = "waitress"
-optional = false
-python-versions = "*"
-version = "1.4.3"
-
-[package.extras]
-docs = ["Sphinx (>=1.8.1)", "docutils", "pylons-sphinx-themes (>=1.0.9)"]
-testing = ["nose", "coverage (>=5.0)"]
-
-[[package]]
-category = "dev"
 description = "Filesystem events monitoring"
 name = "watchdog"
 optional = false
@@ -1928,6 +1806,7 @@ watchdog = ["watchdog"]
 [[package]]
 category = "dev"
 description = "Backport of pathlib-compatible object wrapper for zip files"
+marker = "python_version < \"3.8\""
 name = "zipp"
 optional = false
 python-versions = ">=3.6"
@@ -1938,7 +1817,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "d5214d051c511baf8ca142ae13d47333fd12e451b23a517df301c081f062b3c3"
+content-hash = "c48efef21200420a017b7c66ff6a3c9523417e51947bd39dec99d5241a9ba3ed"
 python-versions = "^3.7, !=3.8"
 
 [metadata.files]
@@ -2043,24 +1922,24 @@ darglint = [
     {file = "darglint-1.2.3.tar.gz", hash = "sha256:d1ab063da91987342c0e51b41028b4b5fc7fb72b04789e4534f7368a9146cd92"},
 ]
 dash = [
-    {file = "dash-1.9.1.tar.gz", hash = "sha256:6a488d380f02ba7c8e624a7c4d89f9e39368b8d9ed4a6f463364894a237f1fd8"},
+    {file = "dash-1.11.0.tar.gz", hash = "sha256:57e32410a4f0f9fef0cdcd61f801bd01738f343ad308fa51592859ef9bc5c5ad"},
 ]
 dash-bootstrap-components = [
     {file = "dash-bootstrap-components-0.9.2.tar.gz", hash = "sha256:ab6ff87baf3b1bab0877694b1a8eb8ad561ef7b06b55941098b740e5016edce0"},
 ]
 dash-charts = []
 dash-core-components = [
-    {file = "dash_core_components-1.8.1.tar.gz", hash = "sha256:9a8901b67d3a1038fb79153c17234d5713c2d7cca0382718c6376c786b280e63"},
+    {file = "dash_core_components-1.9.1.tar.gz", hash = "sha256:ea72f514d841caa1b42a1c6092d00c05cc63768916d33563e994114c1a022656"},
 ]
 dash-dev = []
 dash-html-components = [
-    {file = "dash_html_components-1.0.2.tar.gz", hash = "sha256:8992097a044f5add21f86ccbe0caef8c499394a04d5f2b6cc4458a42f37cca98"},
+    {file = "dash_html_components-1.0.3.tar.gz", hash = "sha256:dafb54ae8ab601fffe50c74d72b32783dec2beea65fd1c7e7dd6a66e20e545ba"},
 ]
 dash-renderer = [
-    {file = "dash_renderer-1.2.4.tar.gz", hash = "sha256:74aab93b6332290d9bff5f81060a5c4cbf0c393f8ccff85b2edb1ae976bdd5f0"},
+    {file = "dash_renderer-1.4.0.tar.gz", hash = "sha256:c56e57f0b55ff0d7bb0f4df71060879460b2d22387fe01394fa84f85c71f66ed"},
 ]
 dash-table = [
-    {file = "dash_table-4.6.1.tar.gz", hash = "sha256:64905af3214b509a95769ba9dfc884677696c270a572ed06b52c57fdcf9d9c77"},
+    {file = "dash_table-4.6.2.tar.gz", hash = "sha256:5ceabd434bc63a9d1aa5bf4f00b55d2e5342072e274f0ee6fc53bc58bef4c1c2"},
 ]
 dataset = [
     {file = "dataset-1.3.1-py2.py3-none-any.whl", hash = "sha256:87400974f2f67a97c19055240e5709e888d9c74b9bea41adff3ea304ad266374"},
@@ -2298,35 +2177,6 @@ jinja2-pluralize = [
     {file = "jinja2_pluralize-0.3.0-py2.py3-none-any.whl", hash = "sha256:4fec874a591014774d4c66cb7f65314390731bfc57db4c27119db61aa93b2bc4"},
     {file = "jinja2_pluralize-0.3.0.tar.gz", hash = "sha256:df5c2d5017b9b54c0a66cb790cca9fc08945837c3dbfc323589203f1ffb73c1c"},
 ]
-lxml = [
-    {file = "lxml-4.5.0-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:0701f7965903a1c3f6f09328c1278ac0eee8f56f244e66af79cb224b7ef3801c"},
-    {file = "lxml-4.5.0-cp27-cp27m-manylinux1_i686.whl", hash = "sha256:06d4e0bbb1d62e38ae6118406d7cdb4693a3fa34ee3762238bcb96c9e36a93cd"},
-    {file = "lxml-4.5.0-cp27-cp27m-manylinux1_x86_64.whl", hash = "sha256:5828c7f3e615f3975d48f40d4fe66e8a7b25f16b5e5705ffe1d22e43fb1f6261"},
-    {file = "lxml-4.5.0-cp27-cp27m-win32.whl", hash = "sha256:afdb34b715daf814d1abea0317b6d672476b498472f1e5aacbadc34ebbc26e89"},
-    {file = "lxml-4.5.0-cp27-cp27m-win_amd64.whl", hash = "sha256:585c0869f75577ac7a8ff38d08f7aac9033da2c41c11352ebf86a04652758b7a"},
-    {file = "lxml-4.5.0-cp27-cp27mu-manylinux1_i686.whl", hash = "sha256:8a0ebda56ebca1a83eb2d1ac266649b80af8dd4b4a3502b2c1e09ac2f88fe128"},
-    {file = "lxml-4.5.0-cp27-cp27mu-manylinux1_x86_64.whl", hash = "sha256:fe976a0f1ef09b3638778024ab9fb8cde3118f203364212c198f71341c0715ca"},
-    {file = "lxml-4.5.0-cp35-cp35m-manylinux1_i686.whl", hash = "sha256:7bc1b221e7867f2e7ff1933165c0cec7153dce93d0cdba6554b42a8beb687bdb"},
-    {file = "lxml-4.5.0-cp35-cp35m-manylinux1_x86_64.whl", hash = "sha256:d068f55bda3c2c3fcaec24bd083d9e2eede32c583faf084d6e4b9daaea77dde8"},
-    {file = "lxml-4.5.0-cp35-cp35m-win32.whl", hash = "sha256:e4aa948eb15018a657702fee0b9db47e908491c64d36b4a90f59a64741516e77"},
-    {file = "lxml-4.5.0-cp35-cp35m-win_amd64.whl", hash = "sha256:1f2c4ec372bf1c4a2c7e4bb20845e8bcf8050365189d86806bad1e3ae473d081"},
-    {file = "lxml-4.5.0-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:5d467ce9c5d35b3bcc7172c06320dddb275fea6ac2037f72f0a4d7472035cea9"},
-    {file = "lxml-4.5.0-cp36-cp36m-manylinux1_i686.whl", hash = "sha256:95e67224815ef86924fbc2b71a9dbd1f7262384bca4bc4793645794ac4200717"},
-    {file = "lxml-4.5.0-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:ebec08091a22c2be870890913bdadd86fcd8e9f0f22bcb398abd3af914690c15"},
-    {file = "lxml-4.5.0-cp36-cp36m-win32.whl", hash = "sha256:deadf4df349d1dcd7b2853a2c8796593cc346600726eff680ed8ed11812382a7"},
-    {file = "lxml-4.5.0-cp36-cp36m-win_amd64.whl", hash = "sha256:f2b74784ed7e0bc2d02bd53e48ad6ba523c9b36c194260b7a5045071abbb1012"},
-    {file = "lxml-4.5.0-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:fa071559f14bd1e92077b1b5f6c22cf09756c6de7139370249eb372854ce51e6"},
-    {file = "lxml-4.5.0-cp37-cp37m-manylinux1_i686.whl", hash = "sha256:edc15fcfd77395e24543be48871c251f38132bb834d9fdfdad756adb6ea37679"},
-    {file = "lxml-4.5.0-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:fd52e796fee7171c4361d441796b64df1acfceb51f29e545e812f16d023c4bbc"},
-    {file = "lxml-4.5.0-cp37-cp37m-win32.whl", hash = "sha256:90ed0e36455a81b25b7034038e40880189169c308a3df360861ad74da7b68c1a"},
-    {file = "lxml-4.5.0-cp37-cp37m-win_amd64.whl", hash = "sha256:df533af6f88080419c5a604d0d63b2c33b1c0c4409aba7d0cb6de305147ea8c8"},
-    {file = "lxml-4.5.0-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:b4b2c63cc7963aedd08a5f5a454c9f67251b1ac9e22fd9d72836206c42dc2a72"},
-    {file = "lxml-4.5.0-cp38-cp38-manylinux1_i686.whl", hash = "sha256:e5d842c73e4ef6ed8c1bd77806bf84a7cb535f9c0cf9b2c74d02ebda310070e1"},
-    {file = "lxml-4.5.0-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:63dbc21efd7e822c11d5ddbedbbb08cd11a41e0032e382a0fd59b0b08e405a3a"},
-    {file = "lxml-4.5.0-cp38-cp38-win32.whl", hash = "sha256:4235bc124fdcf611d02047d7034164897ade13046bda967768836629bc62784f"},
-    {file = "lxml-4.5.0-cp38-cp38-win_amd64.whl", hash = "sha256:d5b3c4b7edd2e770375a01139be11307f04341ec709cf724e0f26ebb1eef12c3"},
-    {file = "lxml-4.5.0.tar.gz", hash = "sha256:8620ce80f50d023d414183bf90cc2576c2837b88e00bea3f33ad2630133bbb60"},
-]
 macfsevents = [
     {file = "MacFSEvents-0.8.1.tar.gz", hash = "sha256:1324b66b356051de662ba87d84f73ada062acd42b047ed1246e60a449f833e10"},
 ]
@@ -2452,10 +2302,6 @@ pep8-naming = [
     {file = "pep8-naming-0.10.0.tar.gz", hash = "sha256:f3b4a5f9dd72b991bf7d8e2a341d2e1aa3a884a769b5aaac4f56825c1763bf3a"},
     {file = "pep8_naming-0.10.0-py2.py3-none-any.whl", hash = "sha256:5d9f1056cb9427ce344e98d1a7f5665710e2f20f748438e308995852cfa24164"},
 ]
-percy = [
-    {file = "percy-2.0.2-py2.py3-none-any.whl", hash = "sha256:c1647b768810e9453220a7721a5d52cec560dee913d13c1e29b713703f4f223e"},
-    {file = "percy-2.0.2.tar.gz", hash = "sha256:6238612dc401fa5c221c0ad7738f7ea43e48fe2695f6423e785ee2bc940f021d"},
-]
 plotly = [
     {file = "plotly-4.6.0-py2.py3-none-any.whl", hash = "sha256:ac0ca0854350bfcd833f3a8eb08aa50e184660502bb46fe907701f896ff349bd"},
     {file = "plotly-4.6.0.tar.gz", hash = "sha256:61f34955f04201a1ebcd59feaafa7eae7c16ef9b3f439870be01fb85a949292f"},
@@ -2520,14 +2366,6 @@ pytest-html = [
 pytest-metadata = [
     {file = "pytest-metadata-1.8.0.tar.gz", hash = "sha256:2071a59285de40d7541fde1eb9f1ddea1c9db165882df82781367471238b66ba"},
     {file = "pytest_metadata-1.8.0-py2.py3-none-any.whl", hash = "sha256:c29a1fb470424926c63154c1b632c02585f2ba4282932058a71d35295ff8c96d"},
-]
-pytest-mock = [
-    {file = "pytest-mock-3.1.0.tar.gz", hash = "sha256:ce610831cedeff5331f4e2fc453a5dd65384303f680ab34bee2c6533855b431c"},
-    {file = "pytest_mock-3.1.0-py2.py3-none-any.whl", hash = "sha256:997729451dfc36b851a9accf675488c7020beccda15e11c75632ee3d1b1ccd71"},
-]
-pytest-sugar = [
-    {file = "pytest-sugar-0.9.2.tar.gz", hash = "sha256:fcd87a74b2bce5386d244b49ad60549bfbc4602527797fac167da147983f58ab"},
-    {file = "pytest_sugar-0.9.2-py2.py3-none-any.whl", hash = "sha256:26cf8289fe10880cbbc130bd77398c4e6a8b936d8393b116a5c16121d95ab283"},
 ]
 pytest-testmon = [
     {file = "pytest-testmon-1.0.2.tar.gz", hash = "sha256:fdb016d953036051d1ef0e36569b7168cefa4914014789a65a4ffefc87f85ac5"},
@@ -2607,10 +2445,6 @@ scipy = [
     {file = "scipy-1.4.1-cp38-cp38-win_amd64.whl", hash = "sha256:2cce3f9847a1a51019e8c5b47620da93950e58ebc611f13e0d11f4980ca5fecb"},
     {file = "scipy-1.4.1.tar.gz", hash = "sha256:dee1bbf3a6c8f73b6b218cb28eed8dd13347ea2f87d572ce19b289d6fd3fbc59"},
 ]
-selenium = [
-    {file = "selenium-3.141.0-py2.py3-none-any.whl", hash = "sha256:2d7131d7bc5a5b99a2d9b04aaf2612c411b03b8ca1b1ee8d3de5845a9be2cb3c"},
-    {file = "selenium-3.141.0.tar.gz", hash = "sha256:deaf32b60ad91a4611b98d8002757f29e6f2c2d5fcaf202e1c9ad06d6772300d"},
-]
 six = [
     {file = "six-1.14.0-py2.py3-none-any.whl", hash = "sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c"},
     {file = "six-1.14.0.tar.gz", hash = "sha256:236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a"},
@@ -2656,9 +2490,6 @@ stevedore = [
     {file = "stevedore-1.32.0-py2.py3-none-any.whl", hash = "sha256:a4e7dc759fb0f2e3e2f7d8ffe2358c19d45b9b8297f393ef1256858d82f69c9b"},
     {file = "stevedore-1.32.0.tar.gz", hash = "sha256:18afaf1d623af5950cc0f7e75e70f917784c73b652a34a12d90b309451b5500b"},
 ]
-termcolor = [
-    {file = "termcolor-1.1.0.tar.gz", hash = "sha256:1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b"},
-]
 testfixtures = [
     {file = "testfixtures-6.14.0-py2.py3-none-any.whl", hash = "sha256:799144b3cbef7b072452d9c36cbd024fef415ab42924b96aad49dfd9c763de66"},
     {file = "testfixtures-6.14.0.tar.gz", hash = "sha256:cdfc3d73cb6d3d4dc3c67af84d912e86bf117d30ae25f02fe823382ef99383d2"},
@@ -2687,10 +2518,6 @@ urllib3 = [
 vulture = [
     {file = "vulture-1.4-py2.py3-none-any.whl", hash = "sha256:89f977c83043c9e01336eedc1b86346a82264d6c85498b7fab4722d914a5f171"},
     {file = "vulture-1.4.tar.gz", hash = "sha256:7ed28f87e6b08e62675946c96788f30f44da6882ad07f4af50485b65a0fac77a"},
-]
-waitress = [
-    {file = "waitress-1.4.3-py2.py3-none-any.whl", hash = "sha256:77ff3f3226931a1d7d8624c5371de07c8e90c7e5d80c5cc660d72659aaf23f38"},
-    {file = "waitress-1.4.3.tar.gz", hash = "sha256:045b3efc3d97c93362173ab1dfc159b52cfa22b46c3334ffc805dbdbf0e4309e"},
 ]
 watchdog = [
     {file = "watchdog-0.10.2.tar.gz", hash = "sha256:c560efb643faed5ef28784b2245cf8874f939569717a4a12826a173ac644456b"},

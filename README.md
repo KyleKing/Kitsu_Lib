@@ -41,13 +41,15 @@ Tasks:
 
 - QUEUE
   - Add tests to at least ~80% coverage
-  - Convert data into SQL format
+  - Write tables for each of library entry, streams, and anime / use "slug" to connect data
+    - Look into `from pandas.io.json import json_normalize` / `json_normalize(thing['data'])`
+    - Or use flatdict / `from sklearn.feature_extraction import DictVectorizer` ([see issue](https://github.com/scikit-learn/scikit-learn/issues/7652#issuecomment-253649565))
   - Create Dash table to filter by streaming platform, category, and rating
+    - Use pandas to load the tables into memory
   - Start implementation of exploratory Dash app
     - Make sure relevant data is in Tidy data format - connect to the px demo app from dash_charts
     - Create custom views. Could be good to see distribution of scores for an anime and where my score falls
 - Planned
-  - Improve logging. Maybe use: `ic.format(s)`
   - Write function to handle keeping local database in sync as library entries could be removed or moved between lists - would likely want to check for list changes (change number of episodes, chapters, moved to complete, etc.) and force a re-download of the relevant data or removal of data if removed from lists
 
 - Other
