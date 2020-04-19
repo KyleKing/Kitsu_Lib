@@ -113,9 +113,10 @@ venv.bak/
 *.html
 *.csv
 *.numbers
+*.db
 
 coverage.json
 docs/*
 
-/kitsu_library_availability/local_storage*/*.json
+/kitsu_library_availability/local_**/*.json
 /scripts/WIP-Untracked/*

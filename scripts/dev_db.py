@@ -10,7 +10,7 @@ from pathlib import Path
 import dataset
 import humps
 from icecream import ic
-from kitsu_library_availability.api_helpers import STORE_PATH
+from kitsu_library_availability.cache_helpers import CACHE_DIR
 
 WIP_DIR = Path(__file__).parent / 'WIP-Untracked'
 
@@ -79,7 +79,7 @@ def create_db(database_path):
     db = dataset.connect(f'sqlite:///{database_path}')
     table = db['anime']
 
-    all_data = json.loads((STORE_PATH / 'all_data.json').read_text())
+    all_data = json.loads((CACHE_DIR / 'all_data.json').read_text())
     for entry in all_data['data']:
         # Lists are unsupported types, need to unwrap and remove dashes
         categories = entry.pop('categories')

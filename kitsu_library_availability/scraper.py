@@ -5,8 +5,8 @@ import logging
 from icecream import ic
 
 from .analysis import merge_anime_info
-from .api_helpers import STORE_PATH, get_anime, get_library, get_user_id
-from .kitsu_helpers import get_data, pretty_dump_json
+from .api_helpers import get_anime, get_data, get_library, get_user_id
+from .cache_helpers import CACHE_DIR, initialize_cache, pretty_dump_json
 
 logging.basicConfig(filename='app_debug.log', filemode='w', level=logging.DEBUG)
 
@@ -20,6 +20,7 @@ def scrape_kitsu(username=None, limit=None):
 
     """
     user_id = get_user_id(username)
+    initialize_cache()
 
     # Loop through a user's library
     index = 0
@@ -41,4 +42,5 @@ def scrape_kitsu(username=None, limit=None):
         except (AttributeError, KeyError) as error:
             ic(f'Failed to find next URL with error: {error}')
 
-    pretty_dump_json(STORE_PATH / 'all_data.json', {'data': all_data})
+    # FIXME: Store output as a JSON file for now - will need to be converted to SQLite at some point
+    pretty_dump_json(CACHE_DIR / 'all_data.json', {'data': all_data})

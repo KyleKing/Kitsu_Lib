@@ -1,13 +1,44 @@
 """Helpers for Kitsu API requests."""
 
-from pathlib import Path
+import logging
+import time
+from json.decoder import JSONDecodeError
 
-from .kitsu_helpers import get_data, pretty_dump_json
+import requests
+from icecream import ic
 
-STORE_PATH = Path(__file__).parent / 'local_storage'
-"""Path to folder with all downloaded responses from Kitsu API."""
+from .cache_helpers import store_response
 
-STORE_PATH.mkdir(exist_ok=True)
+
+def get_data(url, kwargs=None, debug=False):
+    """Return response from generic get request for data object.
+
+    Args:
+        url: URL for request
+        kwargs: Additional arguments to pass to `requests.get()`. Default is None
+        debug: if True, will print additional output to STDOUT. Default is False
+
+    Returns:
+        dict: request response
+
+    Raises:
+        JSONDecodeError: if response cannot be decoded to JSON
+
+    """
+    if debug:
+        logging.debug(ic(f'GET: `{url}`'))
+    if kwargs is None:
+        kwargs = {}
+    raw = requests.get(url, kwargs)
+    try:
+        resp = raw.json()
+        if debug:
+            logging.debug(ic(resp))
+        time.sleep(0.1)
+        return resp
+    except JSONDecodeError as error:
+        ic(f"{'=' * 80}\nFailed to parse response from: {url}\n{raw.text}\n\nerror:{error}")
+        raise
 
 
 def get_kitsu(endpoint, *kwargs):
@@ -34,8 +65,9 @@ def get_user(username):
         dict: Kitsu API response
 
     """
-    user = get_kitsu(f'users?filter[name]={username}')
-    pretty_dump_json(STORE_PATH / f'{username}.json', user)
+    url = f'users?filter[name]={username}'
+    user = get_kitsu(url)
+    store_response(username, url, user)
     return user
 
 
@@ -73,8 +105,9 @@ def get_library(user_id, is_anime=True):
 
     """
     source_type = 'anime' if is_anime else 'manga'
-    lib_entry = get_kitsu(f'users/{user_id}/library-entries?filter[kind]={source_type}')
-    pretty_dump_json(STORE_PATH / 'library.json', lib_entry)  # FIXME: Give file unique name!
+    url = f'users/{user_id}/library-entries?filter[kind]={source_type}'
+    lib_entry = get_kitsu(url)
+    store_response('library', url, lib_entry)
     return lib_entry
 
 
@@ -91,7 +124,7 @@ def get_anime(anime_link):
 
     """
     anime = get_data(anime_link, kwargs={'include': 'categories'})
-    pretty_dump_json(STORE_PATH / 'anime.json', anime)  # FIXME: Give file unique name!
+    store_response('anime', anime_link, anime)
     return anime
 
 
@@ -108,5 +141,5 @@ def get_streams(stream_link):
 
     """
     streams = get_data(stream_link)
-    pretty_dump_json(STORE_PATH / 'stream.json', streams)  # FIXME: Give file unique name!
+    store_response('stream', stream_link, streams)
     return streams
