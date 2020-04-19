@@ -1,4 +1,26 @@
-"""Helpers for managing the JSON response cache to reduce load on API."""
+"""Helpers for managing the JSON response cache to reduce load on API.
+
+Notes on dataset
+
+```py
+ic(db.tables, db['anime'].columns, len(db['anime']))
+ic([*db['anime'].all()][:2])
+
+table = db['anime']
+# # FIXME: id isn't an allowed value
+# ic([*table.find(id=[1, 3, 7])])
+# ic([*table.find_one(id=4)])
+ic([*table.find(status='completed')])
+ic([*table.find(status={'<>': 'dropped'}, averageRating={'between': [60, 80]})])
+ic([*table.distinct('status')])
+# gt, >; || lt, <; || gte, >=; || lte, <=; || !=, <>, not; || between, ..
+
+# Other
+table.update(dict(name='John Doe', age=47), ['name'])
+```
+
+
+"""
 
 import json
 import logging
@@ -87,7 +109,7 @@ def match_url_in_cache(url):
         list: list of match object with keys of the SQL table
 
     """
-    return [*FILE_DATA.db['files'].find(url={'==': url})]
+    return [*FILE_DATA.db['files'].find(url=url)]
 
 
 def store_response(prefix, url, obj):
