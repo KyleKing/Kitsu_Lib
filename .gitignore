@@ -118,3 +118,4 @@ coverage.json
 docs/*
 
 /kitsu_library_availability/local_storage*/*.json
+/scripts/WIP-Untracked/*

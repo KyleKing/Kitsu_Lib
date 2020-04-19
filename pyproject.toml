@@ -14,6 +14,7 @@ requests = "*"
 
 [tool.poetry.dev-dependencies]
 # csv-to-sqlite = "*"
+# flatdict = "*"
 dash_dev = {git = "https://github.com/KyleKing/dash_dev.git"}
 
 [build-system]

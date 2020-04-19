@@ -2,8 +2,6 @@
 
 from urllib.parse import urlsplit
 
-from icecream import ic
-
 from .kitsu_helpers import rm_brs
 
 

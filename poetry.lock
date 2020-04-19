@@ -508,7 +508,7 @@ description = "Get the currently executing AST node of a frame, and other inform
 name = "executing"
 optional = false
 python-versions = "*"
-version = "0.4.2"
+version = "0.4.3"
 
 [[package]]
 category = "dev"
@@ -2059,7 +2059,7 @@ eradicate = [
     {file = "eradicate-1.0.tar.gz", hash = "sha256:4ffda82aae6fd49dfffa777a857cb758d77502a1f2e0f54c9ac5155a39d2d01a"},
 ]
 executing = [
-    {file = "executing-0.4.2.tar.gz", hash = "sha256:da16e4b44d4d209ea9cfc63d68f3d105a38bb53ecf77d79ab5115867759b388f"},
+    {file = "executing-0.4.3.tar.gz", hash = "sha256:a232a732603eba24ff863632f2389b73072baadc185aa9e290a4792ae9f700b8"},
 ]
 flake8 = [
     {file = "flake8-3.7.9-py2.py3-none-any.whl", hash = "sha256:49356e766643ad15072a789a20915d3c91dc89fd313ccd71802303fd67e4deca"},
