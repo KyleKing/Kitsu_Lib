@@ -1,17 +1,23 @@
 """Main scraper interface."""
 
 import logging
+import time
 
 from icecream import ic
 
 from .analysis import merge_anime_info
-from .api_helpers import get_anime, get_data, get_library, get_user_id
+from .api_helpers import get_anime, get_library, get_user_id, selective_request
 from .cache_helpers import CACHE_DIR, initialize_cache, pretty_dump_json
 
-logging.basicConfig(filename='app_debug.log', filemode='w', level=logging.DEBUG)
+logging.basicConfig(
+    filemode='w',
+    filename=f'app_debug-{time.time()}.log',
+    format='%(asctime)s\t%(levelname)s\t%(filename)s:%(lineno)d\t%(funcName)s():\t%(message)s',
+    level=logging.DEBUG,
+)
 
 
-def scrape_kitsu(username=None, limit=None):
+def scrape_kitsu_unsafe(username=None, limit=None):
     """Scrape the anime from the user's database into local storage.
 
     Args:
@@ -19,8 +25,9 @@ def scrape_kitsu(username=None, limit=None):
         limit: optional maximum number of library pages to request. Useful for initial testing. Default is no limit
 
     """
-    user_id = get_user_id(username)
     initialize_cache()
+    user_id = get_user_id(username)
+    logging.debug(f'Scraping Kitsu for {username} ({user_id})')
 
     # Loop through a user's library
     index = 0
@@ -30,17 +37,33 @@ def scrape_kitsu(username=None, limit=None):
         this_lib_page = library_page
         for anime_entry in this_lib_page['data']:
             anime = get_anime(anime_entry['relationships']['anime']['links']['related'])
-            all_data.append(merge_anime_info(anime_entry, anime))
+            all_data.append(merge_anime_info(anime_entry, anime))  # FIXME: Improve how data is collected
 
         # Check if there is a 'next' URL available or if the iterations have reached their limit
         index += 1
         library_page = False
         try:
             url = this_lib_page['links']['next']
-            ic(f'Fetching: {url}')
-            library_page = get_data(url)
+            logging.debug(f'Fetching next library page URL: {url}')
+            library_page = selective_request('library-next', url)
         except (AttributeError, KeyError) as error:
-            ic(f'Failed to find next URL with error: {error}')
+            msg = f'Failed to find next URL (index:{index}) with error: {error}'
+            ic(msg)
+            logging.debug(msg)
 
-    # FIXME: Store output as a JSON file for now - will need to be converted to SQLite at some point
     pretty_dump_json(CACHE_DIR / 'all_data.json', {'data': all_data})
+
+
+def scrape_kitsu(username=None, limit=None):
+    """Capture log exception from scrape_kitsu_unsafe.
+
+    Args:
+        username: optional Kitsu user name. Otherwise falls back to input()
+        limit: optional maximum number of library pages to request. Useful for initial testing. Default is no limit
+
+    """
+    try:
+        scrape_kitsu_unsafe(username, limit)
+    except Exception:
+        logging.exception(f'Scraping Kitsu Library for {username} Failed')
+        raise

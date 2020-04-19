@@ -40,18 +40,15 @@ poetry run doit
 Tasks:
 
 - QUEUE
-  - Create database that keeps `filename,URL,timestamp` together
-    - When new URL requests are made, see if the file is already local and within an allowable timeout (expiration) before calling the API
-  - Run the scraper to download all data locally
   - Add tests to at least ~80% coverage
   - Convert data into SQL format
   - Create Dash table to filter by streaming platform, category, and rating
-- Planned
-  - Replace/override the expiration setting
-    - Write function to handle keeping local database in sync as library entries could be removed or moved between lists - would likely want to check for list changes (change number of episodes, chapters, moved to complete, etc.) and force a re-download of the relevant data
   - Start implementation of exploratory Dash app
     - Make sure relevant data is in Tidy data format - connect to the px demo app from dash_charts
     - Create custom views. Could be good to see distribution of scores for an anime and where my score falls
+- Planned
+  - Improve logging. Maybe use: `ic.format(s)`
+  - Write function to handle keeping local database in sync as library entries could be removed or moved between lists - would likely want to check for list changes (change number of episodes, chapters, moved to complete, etc.) and force a re-download of the relevant data or removal of data if removed from lists
 
 - Other
   - Fix dash_dev to allow for building of docs within master branch (see issue on pdoc for best practices with index.html redirect)
@@ -59,4 +56,4 @@ Tasks:
 Other notes related to development:
 
 - See various TODO/FIXME comments in code
-- May want to look into the AniList GraphQL API: [anilist-apiv2-docs](https://anilist.gitbook.io/anilist-apiv2-docs/) or the APIs used in: [wopian/tracker-killer#anime](https://github.com/wopian/tracker-killer#anime)
+- May want to look into the AniList GraphQL API: [anilist-api-v2-docs](https://anilist.gitbook.io/anilist-apiv2-docs/) or the APIs used in: [wopian/tracker-killer#anime](https://github.com/wopian/tracker-killer#anime)

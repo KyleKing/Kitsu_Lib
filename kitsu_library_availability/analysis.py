@@ -1,6 +1,6 @@
 """Helpers for Kitsu data analysis."""
 
-from urllib.parse import urlsplit
+import furl
 
 from .kitsu_helpers import rm_brs
 
@@ -21,10 +21,10 @@ def summarize_streams(streams):
     summary = {}
     for stream in streams['data']:
         stream_url = stream['attributes']['url']
-        key = urlsplit(stream_url).netloc
-        if key in summary:
-            raise KeyError(f'Too many streams for {key}. Found: {streams}')
-        summary[key] = stream_url
+        hostname = furl(stream_url).asdict()['host']
+        if hostname in summary:
+            raise KeyError(f'Too many streams for {hostname}. Found: {streams}')
+        summary[hostname] = stream_url
     return summary
 
 
@@ -44,8 +44,15 @@ def parse_categories(anime):
 def merge_anime_info(anime_entry_data, anime):
     """WIP: combines a library entry and corresponding anime entry into single, flat dictionary.
 
+    Notes on the `anime_entry_data` argument
+
+    ```py
+    library_page = get_library(user_id, is_anime=True)
+    anime_entry_data = library_page['data'][0]['relationships']['anime']['links']['related']
+    ```
+
     Args:
-        anime_entry_data: FIXME: DOCUMENT
+        anime_entry_data: entry from within library response
         anime: anime dictionary from `get_anime()`
 
     Returns:

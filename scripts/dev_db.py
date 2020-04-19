@@ -10,7 +10,7 @@ from pathlib import Path
 import dataset
 import humps
 from icecream import ic
-from kitsu_library_availability.cache_helpers import CACHE_DIR
+from kitsu_library_availability.cache_helpers import CACHE_DIR, FILE_DATA
 
 WIP_DIR = Path(__file__).parent / 'WIP-Untracked'
 
@@ -100,16 +100,17 @@ def inspect_db(db):
 if __name__ == '__main__':
     # quick_start_guide()
 
-    # Experiment with loading JSON into database. Use data created by early version of ./run_scraper.py
-    create = False
+    # # Experiment with loading JSON into database. Use data created by early version of ./run_scraper.py
+    # create = False
+    #
+    # database_path = (WIP_DIR / 'dev_library.db').resolve()
+    # if create:
+    #     db = create_db(database_path)
+    #     inspect_db(db)
+    # else:
+    #     db = dataset.connect(f'sqlite:///{database_path}')
+    #
+    # table = db['anime']
+    # ic([*table.find(status={'<>': 'not_a_status'}, averageRating={'<=': 85})])
+    # ic([*table.distinct('status')])
 
-    database_path = (WIP_DIR / 'dev_library.db').resolve()
-    if create:
-        db = create_db(database_path)
-        inspect_db(db)
-    else:
-        db = dataset.connect(f'sqlite:///{database_path}')
-
-    table = db['anime']
-    ic([*table.find(status={'<>': 'not_a_status'}, averageRating={'<=': 85})])
-    ic([*table.distinct('status')])

@@ -300,6 +300,7 @@ scipy = "*"
 reference = "c2dd53a896cd022e9b10856c740236d308527601"
 type = "git"
 url = "https://github.com/KyleKing/dash_charts.git"
+
 [[package]]
 category = "main"
 description = "Core component suite for Dash"
@@ -392,6 +393,7 @@ version = "*, ^1.9"
 reference = "2da303ceeb9e381b70f6d1e5452409a9dc18dd8e"
 type = "git"
 url = "https://github.com/KyleKing/dash_dev.git"
+
 [[package]]
 category = "main"
 description = "Vanilla HTML components for Dash"
@@ -989,6 +991,18 @@ Flask = "*"
 
 [[package]]
 category = "main"
+description = "URL manipulation made simple."
+name = "furl"
+optional = false
+python-versions = "*"
+version = "2.1.0"
+
+[package.dependencies]
+orderedmultidict = ">=1.0.1"
+six = ">=1.8.0"
+
+[[package]]
+category = "main"
 description = "Clean single-source support for Python 3 and 2"
 name = "future"
 optional = false
@@ -1240,6 +1254,17 @@ name = "numpy"
 optional = false
 python-versions = ">=3.5"
 version = "1.18.2"
+
+[[package]]
+category = "main"
+description = "Ordered Multivalue Dictionary"
+name = "orderedmultidict"
+optional = false
+python-versions = "*"
+version = "1.0.1"
+
+[package.dependencies]
+six = ">=1.8.0"
 
 [[package]]
 category = "dev"
@@ -1903,7 +1928,6 @@ watchdog = ["watchdog"]
 [[package]]
 category = "dev"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-marker = "python_version < \"3.8\""
 name = "zipp"
 optional = false
 python-versions = ">=3.6"
@@ -1914,7 +1938,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "f7963882382b04359c824a31bae5ab1165fb360b04eb47f700bb18efb6c4b8b4"
+content-hash = "d5214d051c511baf8ca142ae13d47333fd12e451b23a517df301c081f062b3c3"
 python-versions = "^3.7, !=3.8"
 
 [metadata.files]
@@ -2218,6 +2242,10 @@ flask = [
 flask-compress = [
     {file = "Flask-Compress-1.4.0.tar.gz", hash = "sha256:468693f4ddd11ac6a41bca4eb5f94b071b763256d54136f77957cfee635badb3"},
 ]
+furl = [
+    {file = "furl-2.1.0-py2.py3-none-any.whl", hash = "sha256:f4d6f1e5479c376a5b7bdc62795d736d8c1b2a754f366a2ad2816e46e946e22e"},
+    {file = "furl-2.1.0.tar.gz", hash = "sha256:c0e0231a1feee2acd256574b7033df3144775451c610cb587060d6a0d7e0b621"},
+]
 future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},
 ]
@@ -2379,6 +2407,10 @@ numpy = [
     {file = "numpy-1.18.2-cp38-cp38-win32.whl", hash = "sha256:5e0feb76849ca3e83dd396254e47c7dba65b3fa9ed3df67c2556293ae3e16de3"},
     {file = "numpy-1.18.2-cp38-cp38-win_amd64.whl", hash = "sha256:ba3c7a2814ec8a176bb71f91478293d633c08582119e713a0c5351c0f77698da"},
     {file = "numpy-1.18.2.zip", hash = "sha256:e7894793e6e8540dbeac77c87b489e331947813511108ae097f1715c018b8f3d"},
+]
+orderedmultidict = [
+    {file = "orderedmultidict-1.0.1-py2.py3-none-any.whl", hash = "sha256:43c839a17ee3cdd62234c47deca1a8508a3f2ca1d0678a3bf791c87cf84adbf3"},
+    {file = "orderedmultidict-1.0.1.tar.gz", hash = "sha256:04070bbb5e87291cc9bfa51df413677faf2141c73c61d2a5f7b26bea3cd882ad"},
 ]
 packaging = [
     {file = "packaging-20.3-py2.py3-none-any.whl", hash = "sha256:82f77b9bee21c1bafbf35a84905d604d5d1223801d639cf3ed140bd651c08752"},

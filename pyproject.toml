@@ -9,6 +9,7 @@ license = "MIT"
 python = "^3.7, !=3.8"
 dash_charts = {git = "https://github.com/KyleKing/dash_charts.git"}
 dataset = "*"
+furl = "*"
 icecream = "*"
 pyhumps = "*"
 requests = "*"

@@ -1,12 +1,12 @@
 """Helpers for managing the JSON response cache to reduce load on API."""
 
 import json
+import logging
 import time
 from pathlib import Path
 
 import dataset
 from dash_charts.dash_helpers import uniq_table_id
-from icecream import ic
 
 CACHE_DIR = Path(__file__).parent / 'local_cache'
 """Path to folder with all downloaded responses from Kitsu API."""
@@ -25,10 +25,11 @@ class DBConnect:
         """Return connection to database. Will create new connection if one does not exist already.
 
         Returns:
-            FIXME: dataset database instance
+            dict: `dataset` database instance
 
         """
         if self._db is None:
+            logging.debug(f'Initializing dataset instance for {self.database_path}')
             self._db = dataset.connect(f'sqlite:///{self.database_path}')
         return self._db
 
@@ -46,7 +47,6 @@ class DBConnect:
 FILE_DATA = DBConnect(CACHE_DIR / '_file_lookup_database.db')
 """Global instance of the DBConnect() for the file lookup database."""
 
-# FIXME: Implement this database for the Dash application
 KITSU_DATA = DBConnect(CACHE_DIR / '_kitsu_data.db')
 """Global instance of the DBConnect() for the output for the Kitsu API parser."""
 
@@ -55,10 +55,11 @@ def pretty_dump_json(filename, obj):
     """Write indented JSON file.
 
     Args:
-        filename: Path or plain string JSON filename to write
+        filename: Path or plain string filename to write (should end with `.json`)
         obj: JSON object to write
 
     """
+    logging.debug(f'Creating file: {filename}')
     Path(filename).write_text(json.dumps(obj, indent=4, separators=(',', ': ')))
 
 
@@ -70,10 +71,23 @@ def initialize_cache():
     for row in table:
         if not Path(row['filename']).is_file():
             removed_files.append(row['filename'])
-    ic(removed_files)
+    logging.debug(f'Removing files: {removed_files}' if len(removed_files) > 0 else 'No removed files found')
 
     for filename in removed_files:
         table.delete(filename=filename)
+
+
+def match_url_in_cache(url):
+    """Return list of matches for the given URL in the file database.
+
+    Args:
+        url: full URL to use as a reference if already downloaded
+
+    Returns:
+        list: list of match object with keys of the SQL table
+
+    """
+    return [*FILE_DATA.db['files'].find(url={'==': url})]
 
 
 def store_response(prefix, url, obj):
@@ -86,5 +100,12 @@ def store_response(prefix, url, obj):
 
     """
     filename = CACHE_DIR / f'{prefix}_{uniq_table_id()}.json'
-    FILE_DATA.db['files'].insert({'filename': str(filename), 'url': url, 'timestamp': time.time()})
+    new_row = {'filename': str(filename), 'url': url, 'timestamp': time.time()}
+    # Check that the URL isn't already in the database
+    logging.debug(f'inserting row: {new_row}')
+    matches = match_url_in_cache(url)
+    if len(matches) > 0:
+        raise RuntimeError(f'Already have an entry for this URL (`{url}`): {matches}')
+    # Update the database and store the file
+    FILE_DATA.db['files'].insert(new_row)
     pretty_dump_json(filename, obj)
