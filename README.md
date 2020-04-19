@@ -59,3 +59,22 @@ Other notes related to development:
 
 - See various TODO/FIXME comments in code
 - May want to look into the AniList GraphQL API: [anilist-api-v2-docs](https://anilist.gitbook.io/anilist-apiv2-docs/) or the APIs used in: [wopian/tracker-killer#anime](https://github.com/wopian/tracker-killer#anime)
+
+## Coverage
+
+Latest coverage table
+
+<!-- COVERAGE -->
+
+| File | Statements | Missing | Excluded | Coverage |
+| --: | --: | --: | --: | --: |
+| `kitsu_library_availability/__init__.py` | 3 | 0 | 0 | 100.0 |
+| `kitsu_library_availability/analysis.py` | 54 | 54 | 0 | 0.0 |
+| `kitsu_library_availability/api_helpers.py` | 57 | 57 | 0 | 0.0 |
+| `kitsu_library_availability/cache_helpers.py` | 43 | 43 | 0 | 0.0 |
+| `kitsu_library_availability/kitsu_helpers.py` | 9 | 5 | 0 | 44.4 |
+| `kitsu_library_availability/scraper.py` | 41 | 41 | 0 | 0.0 |
+
+Generated on: 2020-04-19T13:22:31.180614
+
+<!-- /COVERAGE -->

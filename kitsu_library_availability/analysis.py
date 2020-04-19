@@ -26,7 +26,7 @@ def filter_stream_urls(streams):
     for stream_url in [stream['attributes']['url'] for stream in streams['data']]:
         # Some links that pointed to Netflix now just are 't'?
         if stream_url != 't' and len(stream_url):
-            if stream_url.startswith('http'):
+            if not stream_url.startswith('http'):
                 stream_url = f'https://{stream_url}'
             stream_urls.append(stream_url)
     return stream_urls
@@ -49,8 +49,8 @@ def summarize_streams(streams):
     ic_streams = ic.format(streams)
     for stream_url in filter_stream_urls(streams):
         # Create a key for each hostname
-        if stream_url.startswith('a.co'):
-            key = 'amazon.com'  # Handle case of the shortened Amazon link, example: http://a.co/d/9hJEmKC
+        if 'a.co/' in stream_url:
+            key = 'amazon'  # Handle case of the shortened Amazon link, example: http://a.co/d/9hJEmKC
         else:
             key = furl(stream_url).asdict()['host'].split('.')[-2]
         for style in ['sub', 'dub']:

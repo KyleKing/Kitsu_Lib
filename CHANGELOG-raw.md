@@ -5,6 +5,8 @@
 
 ### New
 
+* Create Kitsu database and summary CSV. [Kyle King]
+
 * Load JSON data if found or make new request. [Kyle King]
 
 * Initialize cache of Kitsu API responses. [Kyle King]
