@@ -26,12 +26,13 @@ table.update(dict(name='John Doe', age=47), ['name'])
 """
 
 import json
-import logging
 import time
 from pathlib import Path
 
 import dataset
 from dash_charts.dash_helpers import uniq_table_id
+
+from .kitsu_helpers import LOGGER
 
 CACHE_DIR = Path(__file__).parent / 'local_cache'
 """Path to folder with all downloaded responses from Kitsu API."""
@@ -54,7 +55,7 @@ class DBConnect:
 
         """
         if self._db is None:
-            logging.debug(f'Initializing dataset instance for {self.database_path}')
+            LOGGER.debug(f'Initializing dataset instance for {self.database_path}')
             self._db = dataset.connect(f'sqlite:///{self.database_path}')
         return self._db
 
@@ -84,7 +85,7 @@ def pretty_dump_json(filename, obj):
         obj: JSON object to write
 
     """
-    logging.debug(f'Creating file: {filename}')
+    LOGGER.debug(f'Creating file: {filename}')
     Path(filename).write_text(json.dumps(obj, indent=4, separators=(',', ': ')))
 
 
@@ -96,7 +97,7 @@ def initialize_cache():
     for row in table:
         if not Path(row['filename']).is_file():
             removed_files.append(row['filename'])
-    logging.debug(f'Removing files: {removed_files}' if len(removed_files) > 0 else 'No removed files found')
+    LOGGER.debug(f'Removing files: {removed_files}' if len(removed_files) > 0 else 'No removed files found')
 
     for filename in removed_files:
         table.delete(filename=filename)
@@ -127,7 +128,7 @@ def store_response(prefix, url, obj):
     filename = CACHE_DIR / f'{prefix}_{uniq_table_id()}.json'
     new_row = {'filename': str(filename), 'url': url, 'timestamp': time.time()}
     # Check that the URL isn't already in the database
-    logging.debug(f'inserting row: {new_row}')
+    LOGGER.debug(f'inserting row: {new_row}')
     matches = match_url_in_cache(url)
     if len(matches) > 0:
         raise RuntimeError(f'Already have an entry for this URL (`{url}`): {matches}')

@@ -1,25 +1,9 @@
 """Main scraper interface."""
 
-import logging
-import time
-from pathlib import Path
-
 from .analysis import create_kitsu_database, merge_anime_info
 from .api_helpers import get_anime, get_library, get_streams, get_user_id, selective_request
 from .cache_helpers import CACHE_DIR, KITSU_DATA, initialize_cache, pretty_dump_json
-from .kitsu_helpers import export_table_as_csv
-
-LOG_DIR = Path(__file__).parent / 'logs'
-"""Temporary log directory to accrue log files."""
-
-LOG_DIR.mkdir(exist_ok=True)
-
-logging.basicConfig(
-    filemode='w',
-    filename=LOG_DIR / f'app_debug-{time.time()}.log',
-    format='%(asctime)s\t%(levelname)s\t%(filename)s:%(lineno)d\t%(funcName)s():\t%(message)s',
-    level=logging.DEBUG,
-)
+from .kitsu_helpers import LOGGER, configure_logger, export_table_as_csv
 
 
 def scrape_kitsu_unsafe(username=None, limit=None):
@@ -32,7 +16,7 @@ def scrape_kitsu_unsafe(username=None, limit=None):
     """
     initialize_cache()
     user_id = get_user_id(username)
-    logging.debug(f'Scraping Kitsu for {username} ({user_id})')
+    LOGGER.debug(f'Scraping Kitsu for {username} ({user_id})')
 
     # Loop through a user's library
     index = 0
@@ -52,10 +36,10 @@ def scrape_kitsu_unsafe(username=None, limit=None):
         try:
             next_url = this_lib_page['links']['next']
         except (AttributeError, KeyError) as error:
-            logging.info(f'Failed to find next URL (index:{index}) with error: {error}')
+            LOGGER.info(f'Failed to find next URL (index:{index}) with error: {error}')
         library_page = False
         if next_url:
-            logging.debug(f'Fetching next library page URL: {next_url}')
+            LOGGER.debug(f'Fetching next library page URL: {next_url}')
             library_page = selective_request('library-next', next_url)
 
     summary_file_path = CACHE_DIR / 'all_data.json'
@@ -74,8 +58,9 @@ def scrape_kitsu(username=None, limit=None):
         limit: optional maximum number of library pages to request. Useful for initial testing. Default is no limit
 
     """
+    configure_logger()
     try:
         scrape_kitsu_unsafe(username, limit)
     except Exception:
-        logging.exception(f'Scraping Kitsu Library for {username} Failed')
+        LOGGER.exception(f'Scraping Kitsu Library for {username} Failed')
         raise

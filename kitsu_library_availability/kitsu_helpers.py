@@ -1,6 +1,40 @@
 """General helpers for the kitsu_library_availability package."""
 
 import csv
+import logging
+import time
+from pathlib import Path
+
+LOGGER = logging.getLogger('kitsu')
+"""Module logger instance."""
+
+
+def configure_logger():
+    """Configure LOGGER to output to a new file on each call.
+
+    See guides on configuring logging and best practices
+
+    - https://www.digitalocean.com/community/tutorials/how-to-use-logging-in-python-3
+    - https://www.loggly.com/ultimate-guide/python-logging-basics/
+    - https://docs.python.org/3/howto/logging-cookbook.html
+    - https://docs.python.org/3/library/logging.handlers.html#rotatingfilehandler
+    - https://stackoverflow.com/a/44718431/3219667
+    - https://docs.python-guide.org/writing/logging/
+    - https://pymotw.com/3/logging/
+
+    - https://blog.muya.co.ke/configuring-multiple-loggers-python/
+    - https://dzone.com/articles/python-how-to-create-an-exception-logging-decorato
+
+    """
+    log_dir = Path(__file__).parent / 'logs'
+    log_dir.mkdir(exist_ok=True)
+
+    logging.basicConfig(
+        filemode='w',
+        filename=log_dir / f'app_debug-{time.time()}.log',
+        format='%(asctime)s\t%(levelname)s\t%(filename)s:%(lineno)d\t%(funcName)s():\t%(message)s',
+        level=logging.DEBUG,
+    )
 
 
 def rm_brs(line):

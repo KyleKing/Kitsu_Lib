@@ -1,7 +1,6 @@
 """Helpers for Kitsu data analysis."""
 
 import json
-import logging
 from pathlib import Path
 
 import humps
@@ -9,7 +8,7 @@ from furl import furl
 from icecream import ic
 
 from .cache_helpers import KITSU_DATA
-from .kitsu_helpers import rm_brs
+from .kitsu_helpers import LOGGER, rm_brs
 
 
 def filter_stream_urls(streams):
@@ -58,7 +57,7 @@ def summarize_streams(streams):
                 key += f'_{style}'
         # Add unique hostname key to the summary
         if key in summary:
-            logging.warning(f'Too many streams. Overwriting {key}. Found: {ic_streams}')
+            LOGGER.warning(f'Too many streams. Overwriting {key}. Found: {ic_streams}')
         summary[key] = stream_url
     return summary
 

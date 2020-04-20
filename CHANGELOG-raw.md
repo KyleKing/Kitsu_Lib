@@ -5,6 +5,8 @@
 
 ### New
 
+* Initialize tests. [Kyle King]
+
 * Create Kitsu database and summary CSV. [Kyle King]
 
 * Load JSON data if found or make new request. [Kyle King]
@@ -20,6 +22,12 @@
 * Add helpers file and test data. [Kyle King]
 
 ### Changes
+
+* Reviewed dataset docs and refactored. [Kyle King]
+
+* Remove scripts/dev_* & init app.py. [Kyle King]
+
+* Add coverage table to README and minor fix. [Kyle King]
 
 * Experimented with loading JSON into SQLite. [Kyle King]
 

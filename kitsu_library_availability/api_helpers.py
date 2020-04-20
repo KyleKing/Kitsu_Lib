@@ -1,15 +1,14 @@
 """Helpers for Kitsu API requests."""
 
 import json
-import logging
 import time
 from json.decoder import JSONDecodeError
 from pathlib import Path
 
 import requests
-from icecream import ic
 
 from .cache_helpers import FILE_DATA, match_url_in_cache, store_response
+from .kitsu_helpers import LOGGER
 
 
 def get_data(url, kwargs=None, debug=False):
@@ -27,7 +26,7 @@ def get_data(url, kwargs=None, debug=False):
         JSONDecodeError: if response cannot be decoded to JSON
 
     """
-    logging.debug(f'get_data for: `{url}`')
+    LOGGER.debug(f'get_data for: `{url}`')
     if kwargs is None:
         kwargs = {}
     raw = requests.get(url, kwargs)
@@ -36,13 +35,11 @@ def get_data(url, kwargs=None, debug=False):
         resp = raw.json()
         time.sleep(0.1)
     except JSONDecodeError as error:
-        msg = f"{'=' * 80}\nFailed to parse response from: {url}\n{raw.text}\n\nerror:{error}"
-        ic(msg)
-        logging.debug(msg)
+        LOGGER.debug(f"{'=' * 80}\nFailed to parse response from: {url}\n{raw.text}\n\nerror:{error}")
         raise
 
     if debug:
-        logging.debug(resp)
+        LOGGER.debug(resp)
     return resp
 
 
@@ -65,11 +62,11 @@ def selective_request(prefix, url, **get_kwargs):
 
     obj = None
     if len(matches) == 0:
-        logging.debug(f'Making new get request for {url}')
+        LOGGER.debug(f'Making new get request for {url}')
         obj = get_data(url, **get_kwargs)
         store_response(prefix, url, obj)
     elif len(matches) == 1:
-        logging.debug(f"Loading response from {matches[0]['filename']} for {url}")
+        LOGGER.debug(f"Loading response from {matches[0]['filename']} for {url}")
         obj = json.loads(Path(matches[0]['filename']).read_text())
     else:
         raise RuntimeError(f'Too many matches for url={url} in {FILE_DATA.database_path}. Matches: {matches}')
