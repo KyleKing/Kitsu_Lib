@@ -120,3 +120,6 @@ docs/*
 
 /kitsu_library_availability/local_**/*.json
 /scripts/WIP-Untracked/*
+
+# Whitelist test source data
+!/tests/data/*

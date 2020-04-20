@@ -79,12 +79,8 @@ def parse_categories(anime):
 def merge_anime_info(anime_entry_data, anime, streams):
     """WIP: combines a library entry and corresponding anime entry into single, flat dictionary.
 
-    Notes on the `anime_entry_data` argument
-
-    ```py
-    library_page = get_library(user_id, is_anime=True)
-    anime_entry_data = library_page['data'][0]['relationships']['anime']['links']['related']
-    ```
+    Note: `anime_entry_data` argument is from:
+    `anime_entry_data = get_library(user_id, is_anime=True)['data'][n]`
 
     Args:
         anime_entry_data: entry from within library response
