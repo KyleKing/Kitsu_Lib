@@ -41,6 +41,10 @@
 
 * Revive project and tweak error handling. [Kyle King]
 
+### Fix
+
+* Make logger optional. [Kyle King]
+
 ### Other
 
 * Init: WIP Kitsu library exporter. [Kyle King]

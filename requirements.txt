@@ -3,7 +3,7 @@ alembic==1.4.2
 asttokens==2.0.4
 atomicwrites==1.3.0; python_version >= "3.0" and sys_platform == "win32" or sys_platform == "win32"
 attrs==19.3.0
-autopep8==1.5.1
+autopep8==1.5.2
 bandit==1.6.2
 beautifulsoup4==4.9.0
 bottleneck==1.3.2
@@ -146,7 +146,7 @@ sqlalchemy==1.3.16
 sqlparse==0.3.1
 stevedore==1.32.0
 termcolor==1.1.0
-testfixtures==6.14.0
+testfixtures==6.14.1
 tokenize-rt==4.0.0
 toml==0.10.0
 tqdm==4.45.0
