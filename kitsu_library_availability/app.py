@@ -4,6 +4,7 @@ from collections import OrderedDict
 
 import dash
 import dash_bootstrap_components as dbc
+import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 import plotly.express as px
@@ -13,7 +14,9 @@ from dash_charts.utils_app_with_navigation import AppWithTabs
 from dash_charts.utils_callbacks import map_args, map_outputs
 from dash_charts.utils_fig import min_graph
 
-# FIXME: Implement ability for user to select JSON or CSV data and graph interactively!
+# FIXME: Cleanup notes!
+
+# PLANNED: Implement ability for user to select JSON or CSV data and graph interactively!
 #   Require user to submit "Tidy" data with non-value headers
 
 # (X) Refactor and launch
@@ -23,6 +26,108 @@ from dash_charts.utils_fig import min_graph
 #     > https://docs.faculty.ai/user-guide/apps/examples/dash_file_upload_download.html
 #     > https://github.com/plotly/dash-recipes/blob/master/dash-upload-simple.py
 # ( ) Allow for charting the data - need to get column names, update dataframe in tab, etc.
+
+#   - Create Dash table to filter by streaming platform, category, and rating
+#     - Use pandas to load the tables into memory
+
+#   - ex_px variation - notes:
+#     - Along bottom of screen - file select - give keyword name to select from dropdowns for each px app/tab
+#       - This way multiple data sets can be loaded in PD DataFrames
+#     - In dropdown option of default or loaded data
+#     - Data should be tidy, then regular dropdown can be used
+#     - Should show table with data below input
+
+# Elements to build:
+# - html.Hr() (useful for separating the upload/review data/px chart)
+# - dcc.Upload()
+# - How to make user promopts?
+# - dcc.Input to select SQL table and table to show raw data (use dash_charts table class)
+#
+# Drop file - copy to session directory (sub folder) - or just load in memory? Ability to remove datasets?
+#
+# Pdoc3 search? {May not work for local docs, but checkout how pdoc does it's pdoc: https://github.com/pdoc3/pdoc/blob/master/doc/pdoc_template/}
+#
+# Show static tab with instructions? StaticTab class somewhere in DashCharts {Started}
+#
+# Maybe ask for username - create SQLite.db file f'{username}.db'
+# For each upload file, create table with filename and dump user uploaded data (use datasete for SQL management and to check if tables exists already - may need pandas to load CSV/JSON data first before dumping into SQL with datasete)
+# Allow user to clear data (either specific tables or all database)
+# Maybe have warning that data automatically deletes after 30 days of inactivity?
+# If uploading a file with the same name - offer to clear already uploaded data or if a new name should be entered (prompt user for input suggesting "-1"/"-2"/etc)
+# Create main table that stores meta information on each table - date added, source filename (with full path?), (last accessed?), etc.
+#
+# Part 1: AppSettings/AppSession class to store Dict with data sources - {“source_name”: {“type”: “sql”/“JSON”/etc, “value”: dataframe or path}}
+# >show error if failed to parse data source
+# >show table of raw data
+#
+#
+# Part 2: move AppSettings to browser so sessions don’t interfere with one another
+# > method for converting to and from dc.store df_to_store() store_to_df()
+#
+# TBD: select chart types from type and generate multiple charts on same page?
+
+#   - Start implementation of exploratory Dash app
+#     - Make sure relevant data is in Tidy data format - connect to the px demo app from dash_charts
+#     - Create custom views. Could be good to see distribution of scores for an anime and where my score falls
+
+# PLANNED: Make the tabs and chart compact as well when the compact argument is set to True
+
+# ======================================================================================================================
+# Create Tab with User Instructions
+
+
+class StaticTab(AppBase):
+    """Simple App without charts or callbacks."""
+
+    basic_style = {
+        'marginLeft': 'auto',
+        'marginRight': 'auto',
+        'maxWidth': '1000px',
+        'paddingTop': '10px',
+    }
+
+    def initialization(self):
+        """Initialize ids with `self.register_uniq_ids([...])` and other one-time actions."""
+        super().initialization()
+        self.register_uniq_ids(['N/A'])
+
+    def create_elements(self):
+        """Initialize the charts, tables, and other Dash elements.."""
+        pass
+
+    def create_callbacks(self):
+        """Register callbacks necessary for this tab."""
+        pass
+
+
+class InstructionsTab(StaticTab):
+    """Instructions Tab."""
+
+    name = 'Information'
+
+    summary = """
+# Data Exploration App Instructions
+
+This application is meant for generally exploring static datasets, such as SQLite (.db) files, JSON, or CSV. The data
+must be in the `tidy` format. See [this guide on tidy data](https://plotly.com/python/px-arguments/).
+
+## Loading Data
+
+Enter a name for the dataset then drag and drop the file into the upload input. If the parsing of the file fails, you
+should see an error right away. If not, the new data can be selected in any tab and can be shown in a datatable below
+
+### PLANNED: Add more explanation here
+"""
+
+    def return_layout(self):
+        """Return Dash application layout.
+
+        Returns:
+            dict: Dash HTML object
+
+        """
+        return html.Div(children=dcc.Markdown(self.summary), style=self.basic_style)
+
 
 # ======================================================================================================================
 # Create classes to manage tabs state. Easy to scale up or down
@@ -209,10 +314,12 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
 
     name = 'KitsuExplorer'
 
+    external_stylesheets = TabTip.external_stylesheets
+
     tabs_location = 'right'
     """Tab orientation setting. One of `(left, top, bottom, right)`."""
 
-    tabs_margin = '80px'
+    tabs_margin = '110px'
     """Adjust this setting based on the width or height of the tabs to prevent the content from overlapping the tabs."""
 
     tabs_compact = True
@@ -228,6 +335,7 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
         return [
             TabTip(app=self.app),
             TabIris(app=self.app),
+            InstructionsTab(app=self.app),
         ]
 
     def return_layout(self):
@@ -238,6 +346,25 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
 
         """
         return html.Div([
-            html.H3('Kitsu Library Explorer', style={'padding': '10px 0 0 10px'}),
-            super().return_layout(),
+            dbc.Row([
+                html.H3('Kitsu Library Explorer', style={'padding': '10px 0 0 10px'}),
+                super().return_layout(),
+            ]),
+            dbc.Row([
+                dcc.Upload(
+                    id='upload-data',
+                    children=html.Div(['Drag and Drop or ', html.A('Select a File')]),
+                    style={
+                        'width': '100%',
+                        'height': '60px',
+                        'lineHeight': '60px',
+                        'borderWidth': '1px',
+                        'borderStyle': 'dashed',
+                        'borderRadius': '5px',
+                        'textAlign': 'center',
+                        'margin': '10px'
+                    }
+                ),
+                html.Div(id='output-data-upload'),
+            ]),
         ])
