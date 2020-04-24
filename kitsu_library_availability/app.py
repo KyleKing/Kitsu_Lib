@@ -1,76 +1,76 @@
 """Exploratory Dashboard Interface."""
 
+import base64
+import io
 from collections import OrderedDict
+from datetime import datetime
+from pathlib import Path
 
 import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
+# import dash_table
 import pandas as pd
 import plotly.express as px
+from dash.exceptions import PreventUpdate
 from dash_charts.components import dropdown_group, opts_dd
 from dash_charts.utils_app import AppBase
 from dash_charts.utils_app_with_navigation import AppWithTabs
 from dash_charts.utils_callbacks import map_args, map_outputs
 from dash_charts.utils_fig import min_graph
+from icecream import ic
 
-# FIXME: Cleanup notes!
-
-# PLANNED: Implement ability for user to select JSON or CSV data and graph interactively!
 #   Require user to submit "Tidy" data with non-value headers
-
-# (X) Refactor and launch
-# ( ) Add lower section that appears on all tabs. Has file selection or drop
-#     > if SQLite (maps tables - maybe second pop-up?) / JSON / CSV - shows error if not panda-ble
-#     > https://dash.plotly.com/dash-core-components/upload
-#     > https://docs.faculty.ai/user-guide/apps/examples/dash_file_upload_download.html
-#     > https://github.com/plotly/dash-recipes/blob/master/dash-upload-simple.py
-# ( ) Allow for charting the data - need to get column names, update dataframe in tab, etc.
-
-#   - Create Dash table to filter by streaming platform, category, and rating
-#     - Use pandas to load the tables into memory
-
-#   - ex_px variation - notes:
-#     - Along bottom of screen - file select - give keyword name to select from dropdowns for each px app/tab
-#       - This way multiple data sets can be loaded in PD DataFrames
-#     - In dropdown option of default or loaded data
-#     - Data should be tidy, then regular dropdown can be used
-#     - Should show table with data below input
+#   > Update static tab with example data_table of tidy data and links to more explanation
+#     dash_table.DataTable(
+#         data=df_example_tidy.to_dict('records'),
+#         columns=[{'name': i, 'id': i} for i in df_example_tidy.columns]
+#     ),
 
 # Elements to build:
 # - html.Hr() (useful for separating the upload/review data/px chart)
 # - dcc.Upload()
 # - How to make user promopts?
 # - dcc.Input to select SQL table and table to show raw data (use dash_charts table class)
-#
-# Drop file - copy to session directory (sub folder) - or just load in memory? Ability to remove datasets?
-#
-# Pdoc3 search? {May not work for local docs, but checkout how pdoc does it's pdoc: https://github.com/pdoc3/pdoc/blob/master/doc/pdoc_template/}
-#
-# Show static tab with instructions? StaticTab class somewhere in DashCharts {Started}
-#
-# Maybe ask for username - create SQLite.db file f'{username}.db'
-# For each upload file, create table with filename and dump user uploaded data (use datasete for SQL management and to check if tables exists already - may need pandas to load CSV/JSON data first before dumping into SQL with datasete)
-# Allow user to clear data (either specific tables or all database)
-# Maybe have warning that data automatically deletes after 30 days of inactivity?
-# If uploading a file with the same name - offer to clear already uploaded data or if a new name should be entered (prompt user for input suggesting "-1"/"-2"/etc)
-# Create main table that stores meta information on each table - date added, source filename (with full path?), (last accessed?), etc.
-#
-# Part 1: AppSettings/AppSession class to store Dict with data sources - {“source_name”: {“type”: “sql”/“JSON”/etc, “value”: dataframe or path}}
-# >show error if failed to parse data source
-# >show table of raw data
-#
-#
-# Part 2: move AppSettings to browser so sessions don’t interfere with one another
-# > method for converting to and from dc.store df_to_store() store_to_df()
-#
-# TBD: select chart types from type and generate multiple charts on same page?
 
-#   - Start implementation of exploratory Dash app
-#     - Make sure relevant data is in Tidy data format - connect to the px demo app from dash_charts
-#     - Create custom views. Could be good to see distribution of scores for an anime and where my score falls
+# (X) Add lower section that appears on all tabs. Has file selection or drop {Could use a little more cleanup}
+#     > if SQLite (maps tables - maybe second pop-up?) / JSON / CSV - shows error if not panda-ble
+#     > https://dash.plotly.com/dash-core-components/upload
+#     > https://docs.faculty.ai/user-guide/apps/examples/dash_file_upload_download.html
+#     > https://github.com/plotly/dash-recipes/blob/master/dash-upload-simple.py
+# ( ) [1/2-storage] Create single SQLite DB file to hold upload dataframes
+# ( ) [1/2-class] AppSettings/AppSession class to store Dict with data sources - {“source_name”: {“type”: “sql”/“JSON”/etc, “value”: dataframe or path}}
+#     > For each upload file, create table with filename and dump user uploaded data (use datasete for SQL management and to check if tables exists already - may need pandas to load CSV/JSON data first before dumping into SQL with datasete)
+#     > Allow user to clear data (either specific tables or all database)
+#     > Maybe have warning that data automatically deletes after 30 days of inactivity?
+#     > If uploading a file with the same name - offer to clear already uploaded data or if a new name should be entered (prompt user for input suggesting "-1"/"-2"/etc)
+#     > Create main table that stores meta information on each table - date added, source filename (with full path?), (last accessed?), etc.
 
-# PLANNED: Make the tabs and chart compact as well when the compact argument is set to True
+# ( ) !!Ability to remove datasets?
+# ( ) [2/2-storage] Create user-specific SQLite DB file f'{username}.db'. Have user enter username, which could be stored in URL or in dcc.Store(). This defines which SQLite database is loaded
+#  > !!Move App Settings to the SQLite database!!
+
+# ( ) show error if failed to parse data source
+# ( ) show table of raw data (handle really wide tables - clip columns?)
+# ( ) Allow for charting the data - need to get column names, update dataframe in tab, etc.
+
+# ( ) Create Dash_Charts table to filter by streaming platform, category, and rating
+# ( ) Create custom views. Could be good to see distribution of scores for an anime and where my score falls
+
+# Other notes
+# > PLANNED: Make the tabs and chart compact as well when the compact argument is set to True
+# > PLANNED: select chart types from type and generate multiple charts on same page?
+#   > Need way to store state of charts when switching tabs...
+# > methods for conerting to and from `dcc.Store`: df_to_store() // store_to_df()
+#
+# > ex_px variation - notes:
+#   > Along bottom of screen - file select - give keyword name to select from dropdowns for each px app/tab
+#     > This way multiple data sets can be loaded in PD DataFrames
+#   > In dropdown option of default or loaded data
+#   > Data should be tidy, then regular dropdown can be used
+#   > Should show table with data below input
+# > Pdoc3 search? {May not work for local docs, but checkout how pdoc does it's pdoc: https://github.com/pdoc3/pdoc/blob/master/doc/pdoc_template/}
 
 # ======================================================================================================================
 # Create Tab with User Instructions
@@ -309,6 +309,51 @@ class TabIris(TabBase):  # noqa: H601
 # Create class for application to control manage variable scopes
 
 
+def parse_upload(b64_file, filename, timestamp):
+    """Identify file type and parse the uploaded content into a dataframe.
+
+
+    """
+    _content_type, content_string = b64_file.split(',')
+    decoded = base64.b64decode(content_string)
+    try:
+        suffix = Path(filename).suffix.lower()
+        if suffix == '.csv':
+            df_upload = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
+        elif suffix.startswith('.xl'):
+            df_upload = pd.read_excel(io.BytesIO(decoded))
+        elif suffix == '.json':
+            pass  # PLANNED: Expected in records format?
+        elif suffix == '.other?':
+            pass  # PLANNED: Any other supported formats?
+    except Exception as error:
+        ic(error)
+        return html.Div([f'There was an error processing this file: {error}'])
+
+    return html.Div([
+        html.H5(filename),
+        html.H6(datetime.fromtimestamp(date)),
+
+        # dash_table.DataTable(
+        #     data=df_upload.to_dict('records'),
+        #     columns=[{'name': i, 'id': i} for i in df_upload.columns]
+        # ),
+
+        html.Hr(),  # horizontal line
+
+        # For debugging, display the raw contents provided by the web browser
+        html.Div('Raw Content'),
+        html.Pre(contents[0:200] + '...', style={
+            'whiteSpace': 'pre-wrap',
+            'wordBreak': 'break-all',
+        })
+    ])
+
+
+# ======================================================================================================================
+# Create class for application to control manage variable scopes
+
+
 class KitsuExplorer(AppWithTabs):  # noqa: H601
     """Kitsu User Dataset Explorer Plotly/Dash Application."""
 
@@ -324,6 +369,17 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
 
     tabs_compact = True
     """Boolean setting to toggle between a padded tab layout if False and a minimal compact version if True."""
+
+    id_upload = 'upload-drop-area'
+    """Unique name for the main chart."""
+
+    id_upload_output = 'upload-output'
+    """Unique name for the main chart."""
+
+    def initialization(self):
+        """Initialize ids with `self.register_uniq_ids([...])` and other one-time actions."""
+        super().initialization()
+        self.register_uniq_ids([self.id_upload, self.id_upload_output])
 
     def define_nav_elements(self):
         """Return list of initialized tabs.
@@ -346,13 +402,13 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
 
         """
         return html.Div([
-            dbc.Row([
+            dbc.Row([dbc.Col([
                 html.H3('Kitsu Library Explorer', style={'padding': '10px 0 0 10px'}),
                 super().return_layout(),
-            ]),
-            dbc.Row([
+            ])]),
+            dbc.Row([dbc.Col([
                 dcc.Upload(
-                    id='upload-data',
+                    id=self.ids[self.id_upload],
                     children=html.Div(['Drag and Drop or ', html.A('Select a File')]),
                     style={
                         'width': '100%',
@@ -362,9 +418,31 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
                         'borderStyle': 'dashed',
                         'borderRadius': '5px',
                         'textAlign': 'center',
-                        'margin': '10px'
-                    }
+                        'margin': '10px',
+                    },
                 ),
-                html.Div(id='output-data-upload'),
-            ]),
+                html.Div(id=self.ids[self.id_upload_output]),
+            ])]),
         ])
+
+    def create_callbacks(self):
+        """Create Dash callbacks."""
+        super().create_callbacks()
+        self.register_upload_handler()
+
+    def register_upload_handler(self):
+        """Register the upload_handler callbacks."""
+        outputs = [(self.id_upload_output, 'children')]
+        inputs = [(self.id_upload, 'contents')]
+        states = [(self.id_upload, 'filename'), (self.id_upload, 'last_modified')]
+
+        @self.callback(outputs, inputs, states)
+        def upload_handler(*raw_args):
+            a_in, a_state = map_args(raw_args, inputs, states)
+            b64_file = a_in[self.id_upload]['contents']
+            if b64_file is None:
+                raise PreventUpdate()
+
+            filename = a_state[self.id_upload]['filename']
+            timestamp = a_state[self.id_upload]['last_modified']
+            return [parse_upload(b64_file, filename, timestamp)]
