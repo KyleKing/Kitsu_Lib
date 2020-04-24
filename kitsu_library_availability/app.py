@@ -5,6 +5,7 @@ import io
 from collections import OrderedDict
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import quote as urlquote
 
 import dash
 import dash_bootstrap_components as dbc
@@ -28,41 +29,33 @@ from icecream import ic
 #         columns=[{'name': i, 'id': i} for i in df_example_tidy.columns]
 #     ),
 
-# Elements to build:
-# - html.Hr() (useful for separating the upload/review data/px chart)
-# - dcc.Upload()
-# - How to make user promopts?
-# - dcc.Input to select SQL table and table to show raw data (use dash_charts table class)
-
-# (X) Add lower section that appears on all tabs. Has file selection or drop {Could use a little more cleanup}
-#     > if SQLite (maps tables - maybe second pop-up?) / JSON / CSV - shows error if not panda-ble
-#     > https://dash.plotly.com/dash-core-components/upload
-#     > https://docs.faculty.ai/user-guide/apps/examples/dash_file_upload_download.html
-#     > https://github.com/plotly/dash-recipes/blob/master/dash-upload-simple.py
 # ( ) [1/2-storage] Create single SQLite DB file to hold upload dataframes
-# ( ) [1/2-class] AppSettings/AppSession class to store Dict with data sources - {“source_name”: {“type”: “sql”/“JSON”/etc, “value”: dataframe or path}}
+#     > Show error if failed to parse data source
 #     > For each upload file, create table with filename and dump user uploaded data (use datasete for SQL management and to check if tables exists already - may need pandas to load CSV/JSON data first before dumping into SQL with datasete)
-#     > Allow user to clear data (either specific tables or all database)
-#     > Maybe have warning that data automatically deletes after 30 days of inactivity?
-#     > If uploading a file with the same name - offer to clear already uploaded data or if a new name should be entered (prompt user for input suggesting "-1"/"-2"/etc)
 #     > Create main table that stores meta information on each table - date added, source filename (with full path?), (last accessed?), etc.
+#     > Add dcc.Input to select SQL table and table to show raw data (use dash_charts table class)
 
-# ( ) !!Ability to remove datasets?
 # ( ) [2/2-storage] Create user-specific SQLite DB file f'{username}.db'. Have user enter username, which could be stored in URL or in dcc.Store(). This defines which SQLite database is loaded
-#  > !!Move App Settings to the SQLite database!!
 
-# ( ) show error if failed to parse data source
-# ( ) show table of raw data (handle really wide tables - clip columns?)
-# ( ) Allow for charting the data - need to get column names, update dataframe in tab, etc.
+# ( ) Edge Cases
+#     > Allow user to clear data (either specific tables or all database)
+#     > show table of raw data (handle really wide tables - clip columns?)
+#     > If uploading a file with the same name - offer to clear already uploaded data or if a new name should be entered (prompt user for input suggesting "-1"/"-2"/etc)
 
-# ( ) Create Dash_Charts table to filter by streaming platform, category, and rating
-# ( ) Create custom views. Could be good to see distribution of scores for an anime and where my score falls
+# ( ) Allow selecting of the datatable from SQL, then update the inputs so that the selected data can be charted in the px charts (like the demo px.Tips data is shown now) - need to get column names, update dataframe in tab, etc.
+
+
+# ( ) Visualization
+#     > Create Dash_Charts table to filter by streaming platform, category, and rating
+#     > Create custom views. Could be good to see distribution of scores for an anime and where my score falls
 
 # Other notes
 # > PLANNED: Make the tabs and chart compact as well when the compact argument is set to True
 # > PLANNED: select chart types from type and generate multiple charts on same page?
 #   > Need way to store state of charts when switching tabs...
 # > methods for conerting to and from `dcc.Store`: df_to_store() // store_to_df()
+# > Maybe popover will be useful for describing inputs? https://dash-bootstrap-components.opensource.faculty.ai/docs/components/popover/
+# > Maybe auto-delete data after 30 days of inactivity?
 #
 # > ex_px variation - notes:
 #   > Along bottom of screen - file select - give keyword name to select from dropdowns for each px app/tab
@@ -306,21 +299,50 @@ class TabIris(TabBase):  # noqa: H601
 
 
 # ======================================================================================================================
-# Create class for application to control manage variable scopes
+# Create helpers for managing file upload and download
+
+# Useful methods based on: https://docs.faculty.ai/user-guide/apps/examples/dash_file_upload_download.html
+
+def save_file(dest_path, content):
+    """Decode and store a file uploaded with Plotly Dash."""
+    data = content.encode("utf8").split(b';base64,')[1]
+    dest_path.write_text(base64.decodebytes(data))
 
 
-def parse_upload(b64_file, filename, timestamp):
+def uploaded_files(upload_dir):
+    """List the files in the upload directory."""
+    return [*upload_dir.glob('*.*')]
+
+
+def file_download_link(filename):
+    """Create a Plotly Dash 'A' element that downloads a file from the app."""
+    return html.A(filename, href=f'/download/{urlquote(filename)}')
+
+
+# End methods from faculty.ai
+
+
+def parse_uploaded_image(b64_file, filename, timestamp):
+
+    content_type, data = b64_file.split(b';base64,')[1]
+
+    if 'image' in content_type:
+        return html.Img(src=b64_file)
+
+
+def parse_uploaded_df(b64_file, filename, timestamp):
     """Identify file type and parse the uploaded content into a dataframe.
 
 
     """
-    _content_type, content_string = b64_file.split(',')
-    decoded = base64.b64decode(content_string)
+    content_type, data = b64_file.split(b';base64,')
+    decoded = base64.b64decode(data)
     try:
         suffix = Path(filename).suffix.lower()
         if suffix == '.csv':
             df_upload = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
         elif suffix.startswith('.xl'):
+            # FYI: xlsx will have 'spreadsheet' in `content_type` but xls will not have anything
             df_upload = pd.read_excel(io.BytesIO(decoded))
         elif suffix == '.json':
             pass  # PLANNED: Expected in records format?
@@ -328,11 +350,11 @@ def parse_upload(b64_file, filename, timestamp):
             pass  # PLANNED: Any other supported formats?
     except Exception as error:
         ic(error)
-        return html.Div([f'There was an error processing this file: {error}'])
+        return html.Div([f'Could not parse {filename} ({content_type}). Error: {error}'])
 
     return html.Div([
         html.H5(filename),
-        html.H6(datetime.fromtimestamp(date)),
+        html.H6(datetime.fromtimestamp(content_type)),
 
         # dash_table.DataTable(
         #     data=df_upload.to_dict('records'),
@@ -343,7 +365,7 @@ def parse_upload(b64_file, filename, timestamp):
 
         # For debugging, display the raw contents provided by the web browser
         html.Div('Raw Content'),
-        html.Pre(contents[0:200] + '...', style={
+        html.Pre(b64_file[0:200] + '...', style={
             'whiteSpace': 'pre-wrap',
             'wordBreak': 'break-all',
         })
@@ -371,15 +393,21 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
     """Boolean setting to toggle between a padded tab layout if False and a minimal compact version if True."""
 
     id_upload = 'upload-drop-area'
-    """Unique name for the main chart."""
+    """Unique name for the upload component."""
 
     id_upload_output = 'upload-output'
-    """Unique name for the main chart."""
+    """Unique name for the div to contain output of the parse-upload."""
+
+    modal = 'modal'
+    """Unique name for the pop-up modal."""
+
+    modal_close = 'modal-close'
+    """Unique name for the close button of the pop-up modal."""
 
     def initialization(self):
         """Initialize ids with `self.register_uniq_ids([...])` and other one-time actions."""
         super().initialization()
-        self.register_uniq_ids([self.id_upload, self.id_upload_output])
+        self.register_uniq_ids([self.id_upload, self.id_upload_output, self.modal, self.modal_close])
 
     def define_nav_elements(self):
         """Return list of initialized tabs.
@@ -406,6 +434,7 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
                 html.H3('Kitsu Library Explorer', style={'padding': '10px 0 0 10px'}),
                 super().return_layout(),
             ])]),
+            html.Hr(),
             dbc.Row([dbc.Col([
                 dcc.Upload(
                     id=self.ids[self.id_upload],
@@ -420,9 +449,40 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
                         'textAlign': 'center',
                         'margin': '10px',
                     },
+                    multiple=False,
                 ),
                 html.Div(id=self.ids[self.id_upload_output]),
             ])]),
+            # Demo using a modal with form - if additional user information is necessary
+            #   dbc form: https://dash-bootstrap-components.opensource.faculty.ai/docs/components/input/
+            dbc.Modal(
+                [
+                    dbc.ModalHeader('Header'),
+                    dbc.ModalBody('This is the content of the modal'),
+                    dbc.ModalFooter(
+                        dbc.Button('Close', id=self.ids[self.modal_close], className='ml-auto')
+                    ),
+                ],
+                backdrop='static',
+                centered=True,
+                id=self.ids[self.modal],
+
+                is_open=True,  # Needs to be handled in callback to toggle open state
+            ),
+            # Example warning
+            dbc.Toast(
+                'This toast is placed in the top right',
+                id='positioned-toast',
+                header='Positioned toast',
+                dismissable=True,
+                duration=1000 * 5,
+                # primary|secondary|success|warning|danger|info|light|dark
+                icon='danger',
+                # Position in the top left (note: will occlude the tabs when open, could be moved elsewhere)
+                style={'position': 'fixed', 'top': 10, 'right': 10, 'width': 350, 'zIndex': 1900},
+
+                is_open=True,  # Needs to be handled in callback to toggle open state
+            ),
         ])
 
     def create_callbacks(self):
@@ -445,4 +505,4 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
 
             filename = a_state[self.id_upload]['filename']
             timestamp = a_state[self.id_upload]['last_modified']
-            return [parse_upload(b64_file, filename, timestamp)]
+            return [parse_uploaded_df(b64_file, filename, timestamp)]
