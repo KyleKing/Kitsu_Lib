@@ -13,9 +13,6 @@ from dash_charts.utils_app import AppBase
 from dash_charts.utils_callbacks import map_args, map_outputs
 from dash_charts.utils_fig import min_graph
 
-# ======================================================================================================================
-# Create Tab with User Instructions
-
 
 class StaticTab(AppBase):
     """Simple App without charts or callbacks."""
@@ -42,7 +39,7 @@ class StaticTab(AppBase):
 
 
 class InstructionsTab(StaticTab):
-    """Instructions Tab."""
+    """User-Instructions Tab."""
 
     name = 'Information'
 
@@ -70,12 +67,8 @@ should see an error right away. If not, the new data can be selected in any tab 
         return html.Div(children=dcc.Markdown(self.summary), style=self.basic_style)
 
 
-# ======================================================================================================================
-# Create classes to manage tabs state. Easy to scale up or down
-# >> Demo uses sample data. User could replace with data loaded from a static CSV file, TinyDB, SQLite, etc.
-
-
-# FIXME: how does this differ from dash_charts? https://github.com/KyleKing/dash_charts/blob/df897f4abb53ce028b6e333477445917dee1cfd7/dash_charts/app_px.py#L116
+# FIXME: diff against dash_charts and merge back into package
+#   https://github.com/KyleKing/dash_charts/blob/df897f4abb53ce028b6e333477445917dee1cfd7/dash_charts/app_px.py#L116
 class TabBase(AppBase):  # noqa: H601
     """Base tab class with helper methods."""
 
