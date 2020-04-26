@@ -2,8 +2,8 @@
 
 import json
 
-from kitsu_library_availability.analysis import (create_kitsu_database, filter_stream_urls, merge_anime_info,
-                                                 parse_categories, summarize_streams)
+from kitsu_lib.analysis import (create_kitsu_database, filter_stream_urls, merge_anime_info, parse_categories,
+                                summarize_streams)
 
 from .configuration import TEST_DATA_DIR
 

@@ -25,6 +25,8 @@
 
 ### Changes
 
+* Resolve linting errors and improve upload. [Kyle King]
+
 * Add callback for modal & refactor into funcs. [Kyle King]
 
 * Split app.py into three files. [Kyle King]

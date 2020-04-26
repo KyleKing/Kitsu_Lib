@@ -1,4 +1,4 @@
-"""kitsu_library_availability package."""
+"""kitsu_lib package."""
 
 from icecream import ic
 

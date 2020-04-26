@@ -1,7 +1,7 @@
 """Launch the Plotly/Dash application for exploring user library."""
 
 from dash_charts.dash_helpers import parse_dash_cli_args
-from kitsu_library_availability.app import KitsuExplorer
+from kitsu_lib.app import KitsuExplorer
 
 instance = KitsuExplorer
 if __name__ == '__main__':

@@ -2,7 +2,7 @@
 
 import sys
 
-from kitsu_library_availability import scraper
+from kitsu_lib import scraper
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:

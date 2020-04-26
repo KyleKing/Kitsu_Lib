@@ -1,8 +1,7 @@
 """Test the api_helpers.py file."""
 
-from kitsu_library_availability.api_helpers import (get_anime, get_data, get_kitsu, get_library, get_streams, get_user,
-                                                    get_user_id, selective_request)
-
+from kitsu_lib.api_helpers import (get_anime, get_data, get_kitsu, get_library, get_streams, get_user, get_user_id,
+                                   selective_request)
 
 # def test_get_data():
 #     """Test get_data with simple smoke test."""

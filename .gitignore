@@ -118,7 +118,7 @@ venv.bak/
 coverage.json
 docs/*
 
-/kitsu_library_availability/local_**/*.json
+/kitsu_lib/local_**/*.json
 /scripts/WIP-Untracked/*
 
 # Whitelist test source data

@@ -3,7 +3,7 @@
 import filecmp
 
 import dataset
-from kitsu_library_availability.kitsu_helpers import configure_logger, export_table_as_csv, rm_brs
+from kitsu_lib.kitsu_helpers import configure_logger, export_table_as_csv, rm_brs
 
 from .configuration import TEMP_DIR, TEST_DATA_DIR
 

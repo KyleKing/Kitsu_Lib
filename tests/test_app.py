@@ -3,7 +3,7 @@
 import time
 
 import pytest
-from kitsu_library_availability.app import KitsuExplorer
+from kitsu_lib.app import KitsuExplorer
 
 
 @pytest.mark.CHROME

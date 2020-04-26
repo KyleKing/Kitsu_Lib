@@ -1,4 +1,4 @@
-"""General helpers for the kitsu_library_availability package."""
+"""General helpers for the kitsu_lib package."""
 
 import csv
 import logging

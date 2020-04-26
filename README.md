@@ -1,4 +1,4 @@
-# Kitsu_Library_Availability
+# kitsu_lib
 
 While originally only built to find legal streaming links for a user's Kitsu watch list, I have since added a dashboard with Plotly/Dash to filter for ratings, categories, and other attributes to help choose what to watch.
 
@@ -11,8 +11,8 @@ Open an issue if you have any questions or run into any issues
 Initial commands to clone code from Github, create Python virtual environment, and run first example application. Replace `my_username` with your actual Kitsu username
 
 ```sh
-git clone https://github.com/KyleKing/kitsu_library_availability.git
-cd kitsu_library_availability
+git clone https://github.com/KyleKing/kitsu_lib.git
+cd kitsu_lib
 poetry install
 poetry run python scripts/run_scraper.py my_username
 ```
@@ -62,16 +62,16 @@ Latest coverage table
 
 | File | Statements | Missing | Excluded | Coverage |
 | --: | --: | --: | --: | --: |
-| `kitsu_library_availability/__init__.py` | 3 | 0 | 0 | 100.0 |
-| `kitsu_library_availability/analysis.py` | 54 | 5 | 0 | 90.7 |
-| `kitsu_library_availability/api_helpers.py` | 54 | 39 | 0 | 27.8 |
-| `kitsu_library_availability/app.py` | 132 | 41 | 0 | 68.9 |
-| `kitsu_library_availability/app_helpers.py` | 39 | 26 | 0 | 33.3 |
-| `kitsu_library_availability/app_tabs.py` | 100 | 12 | 0 | 88.0 |
-| `kitsu_library_availability/cache_helpers.py` | 43 | 19 | 0 | 55.8 |
-| `kitsu_library_availability/kitsu_helpers.py` | 17 | 0 | 0 | 100.0 |
-| `kitsu_library_availability/scraper.py` | 39 | 33 | 0 | 15.4 |
+| `kitsu_lib/__init__.py` | 3 | 0 | 0 | 100.0 |
+| `kitsu_lib/analysis.py` | 53 | 4 | 0 | 92.5 |
+| `kitsu_lib/api_helpers.py` | 54 | 39 | 0 | 27.8 |
+| `kitsu_lib/app.py` | 120 | 22 | 0 | 81.7 |
+| `kitsu_lib/app_helpers.py` | 44 | 29 | 0 | 34.1 |
+| `kitsu_lib/app_tabs.py` | 102 | 11 | 0 | 89.2 |
+| `kitsu_lib/cache_helpers.py` | 43 | 19 | 0 | 55.8 |
+| `kitsu_lib/kitsu_helpers.py` | 17 | 0 | 0 | 100.0 |
+| `kitsu_lib/scraper.py` | 39 | 33 | 0 | 15.4 |
 
-Generated on: 2020-04-25T21:16:26.776416
+Generated on: 2020-04-26T11:29:33.637143
 
 <!-- /COVERAGE -->
