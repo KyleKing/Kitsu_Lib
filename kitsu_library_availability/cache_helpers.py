@@ -11,7 +11,6 @@ ic(db.tables, db['anime'].columns, len(db['anime']))
 ic([*db['anime'].all()][:2])
 
 table = db['anime']
-# # FIXME: `id` is a Python reserved variable name. Shouldn't this be `_id`?
 # ic([*table.find(id=[1, 3, 7])])
 # ic([*table.find_one(id=4)])
 ic([*table.find(status='completed')])
@@ -123,6 +122,9 @@ def store_response(prefix, url, obj):
         prefix: string used to create more recognizable filenames
         url: full URL to use as a reference if already downloaded
         obj: JSON object to write
+
+    Raises:
+        RuntimeError: if duplicate match found when storing
 
     """
     filename = CACHE_DIR / f'{prefix}_{uniq_table_id()}.json'

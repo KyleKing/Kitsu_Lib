@@ -63,13 +63,15 @@ Latest coverage table
 | File | Statements | Missing | Excluded | Coverage |
 | --: | --: | --: | --: | --: |
 | `kitsu_library_availability/__init__.py` | 3 | 0 | 0 | 100.0 |
-| `kitsu_library_availability/analysis.py` | 55 | 5 | 0 | 90.9 |
+| `kitsu_library_availability/analysis.py` | 54 | 5 | 0 | 90.7 |
 | `kitsu_library_availability/api_helpers.py` | 54 | 39 | 0 | 27.8 |
-| `kitsu_library_availability/app.py` | 95 | 91 | 0 | 4.2 |
+| `kitsu_library_availability/app.py` | 132 | 41 | 0 | 68.9 |
+| `kitsu_library_availability/app_helpers.py` | 39 | 26 | 0 | 33.3 |
+| `kitsu_library_availability/app_tabs.py` | 100 | 12 | 0 | 88.0 |
 | `kitsu_library_availability/cache_helpers.py` | 43 | 19 | 0 | 55.8 |
 | `kitsu_library_availability/kitsu_helpers.py` | 17 | 0 | 0 | 100.0 |
 | `kitsu_library_availability/scraper.py` | 39 | 33 | 0 | 15.4 |
 
-Generated on: 2020-04-21T21:37:16.495286
+Generated on: 2020-04-25T21:16:26.776416
 
 <!-- /COVERAGE -->

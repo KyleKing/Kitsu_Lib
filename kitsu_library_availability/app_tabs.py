@@ -6,6 +6,7 @@ import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_table
 import pandas as pd
 import plotly.express as px
 from dash_charts.components import dropdown_group, opts_dd
@@ -14,7 +15,7 @@ from dash_charts.utils_callbacks import map_args, map_outputs
 from dash_charts.utils_fig import min_graph
 
 
-class StaticTab(AppBase):
+class StaticTab(AppBase):  # noqa: H601
     """Simple App without charts or callbacks."""
 
     basic_style = {
@@ -51,8 +52,9 @@ must be in the `tidy` format. See [this guide on tidy data](https://plotly.com/p
 
 ## Loading Data
 
-Enter a name for the dataset then drag and drop the file into the upload input. If the parsing of the file fails, you
-should see an error right away. If not, the new data can be selected in any tab and can be shown in a datatable below
+Give the file a memorable name then drag and drop the file into the upload input. If the parsing of the file fails, you
+will see an error. If not, the new data will be shown as a preview below the upload section and can be selected in any
+of the charts
 
 ### PLANNED: Add more explanation here
 """
@@ -64,7 +66,34 @@ should see an error right away. If not, the new data can be selected in any tab 
             dict: Dash HTML object
 
         """
-        return html.Div(children=dcc.Markdown(self.summary), style=self.basic_style)
+        example_df = px.data.iris()[:20]
+        return html.Div(children=[
+            dcc.Markdown(self.summary),
+            html.H5('Tidy Data'),
+            html.P(('All uploaded data needs to be in the Tidy format. This means that column names should not contain'
+                    'data and instead are the variables. A simple example is taking a dataset that contains student',
+                    'scores in columns `(Student, Physics, Chemistry, English, Math)` and "tidying" it to',
+                    '`(Student, Subject, Test Score)`. See the below dataframe example and links for more'
+                    'information')),
+            html.Ul([
+                html.A('Excellent Medium Article Describing Tidy Data',
+                       href=('https://towardsdatascience.com/whats-tidy-data-how-to-organize-messy-datasets-in-'
+                             'python-with-melt-and-pivotable-functions-5d52daa996c9')),
+                html.A('Pandas and Tidy Data (also has other guides to modern Pandas)',
+                       href='https://tomaugspurger.github.io/modern-5-tidy.html'),
+                html.A('Tidy Data in Python (also other data science blog posts of interest))',
+                       href='https://www.jeannicholashould.com/tidy-data-in-python.html'),
+                html.A('Another Pandas and Tidy Data',
+                       href='http://shzhangji.com/blog/2017/09/30/pandas-and-tidy-data/'),
+                html.A('In R, but still useful for how to conceptualize tidying data',
+                       href='https://r4ds.had.co.nz/tidy-data.html'),
+                # Alt link: https://garrettgman.github.io/tidying/
+            ]),
+            dash_table.DataTable(
+                data=example_df.to_dict('records'),
+                columns=[{'name': i, 'id': i} for i in example_df.columns],
+            ),
+        ], style=self.basic_style)
 
 
 # FIXME: diff against dash_charts and merge back into package

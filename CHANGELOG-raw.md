@@ -5,6 +5,8 @@
 
 ### New
 
+* Add static tab and update notes. [Kyle King]
+
 * Initialize tests. [Kyle King]
 
 * Create Kitsu database and summary CSV. [Kyle King]
@@ -22,6 +24,16 @@
 * Add helpers file and test data. [Kyle King]
 
 ### Changes
+
+* Add callback for modal & refactor into funcs. [Kyle King]
+
+* Split app.py into three files. [Kyle King]
+
+* Toast/modal example, removed some tasks. [Kyle King]
+
+* Initialize upload & clean up notes. [Kyle King]
+
+* Modify dash_chart source in app.py for dev. [Kyle King]
 
 * Reviewed dataset docs and refactored. [Kyle King]
 

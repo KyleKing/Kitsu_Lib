@@ -15,8 +15,6 @@ from urllib.parse import quote as urlquote
 import dash_html_components as html
 import pandas as pd
 
-# from icecream import ic
-
 
 def split_b64_file(b64_file):
     """Separate the data type and data content from a b64-encoded string.
@@ -91,8 +89,54 @@ def parse_uploaded_image(b64_file, filename, timestamp):
     return html.Img(src=b64_file)
 
 
-def parse_uploaded_df(b64_file, filename, timestamp):
+def parse_json(raw_json):
+    """Return dataframe from JSON formatted in the 'records' orientation.
+
+    Args:
+        raw_json: json string
+
+    Returns:
+        dataframe: uploaded dataframe parsed from JSON
+
+    Raises:
+        RuntimeError: if the JSON file can't be parsed
+
+    """
+    keys = [*raw_json.keys()]
+    if len(keys) != 1:
+        raise RuntimeError('Expected JSON with format `{data: [...]}` where `data` could be any key.'
+                           f'However, more than one key was found: {keys}')
+    return pd.read_json(raw_json[keys[0]], orient='read_json')
+
+
+def load_df(decoded, filename):
     """Identify file type and parse the uploaded content into a dataframe.
+
+    Args:
+        decoded: string contents/data of the file decoded from the full base64 file
+        filename: filename of upload file. Name only
+
+    Returns:
+        dataframe: uploaded dataframe parsed from source file
+
+    """
+    suffix = Path(filename).suffix.lower()
+    if suffix == '.csv':
+        df_upload = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
+
+    elif suffix.startswith('.xl'):
+        # xlsx will have 'spreadsheet' in `content_type` but xls will not have anything
+        df_upload = pd.read_excel(io.BytesIO(decoded))
+
+    elif suffix == '.json':
+        raw_json = json.loads(io.StringIO(decoded.decode('utf-8')))
+        df_upload = parse_json(raw_json)
+
+    return df_upload  # noqa: R504
+
+
+def parse_uploaded_df(b64_file, filename, timestamp):
+    """Decode base64 data and parse based on file type. Attempts to return the parsed data as a Pandas dataframe.
 
     Args:
         b64_file: file encoded in base64
@@ -100,30 +144,16 @@ def parse_uploaded_df(b64_file, filename, timestamp):
         timestamp: upload timestamp
 
     Returns:
-        dataframe: uploaded dataframe parsed from source file
+        dataframe: pandas dataframe parsed from source file
 
     Raises:
-        RuntimeError: if datatype could not be parsed
+        RuntimeError: if raw data could not be parsed
 
     """
     content_type, data = split_b64_file(b64_file)
     decoded = base64.b64decode(data)
     try:
-        suffix = Path(filename).suffix.lower()
-        if suffix == '.csv':
-            df_upload = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
-
-        elif suffix.startswith('.xl'):
-            # xlsx will have 'spreadsheet' in `content_type` but xls will not have anything
-            df_upload = pd.read_excel(io.BytesIO(decoded))
-
-        elif suffix == '.json':
-            raw_json = json.loads(io.StringIO(decoded.decode('utf-8')))
-            keys = [*raw_json.keys()]
-            if len(keys) != 1:
-                raise RuntimeError('Expected JSON with format `{data: [...]}` where `data` could be any key.'
-                                   f'However, more than one key was found: {keys}')
-            df_upload = pd.read_json(raw_json[keys[0]])
+        df_upload = load_df(decoded, filename)
 
     except Exception as error:
         raise RuntimeError(f'Could not parse {filename} ({content_type}). Error: {error}')

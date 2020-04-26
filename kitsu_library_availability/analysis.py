@@ -23,10 +23,9 @@ def filter_stream_urls(streams):
     """
     stream_urls = []
     for stream_url in [stream['attributes']['url'] for stream in streams['data']]:
-        # Some links that pointed to Netflix now just are 't'?
+        # Some links that pointed to Netflix are only 't', so ignore them
         if stream_url != 't' and len(stream_url):
-            if not stream_url.startswith('http'):
-                stream_url = f'https://{stream_url}'
+            stream_url = f'https://{stream_url}' if not stream_url.startswith('http') else stream_url
             stream_urls.append(stream_url)
     return stream_urls
 
@@ -39,9 +38,6 @@ def summarize_streams(streams):
 
     Returns:
         dict: summary dictionary with keys of the base URL and values of full stream URL
-
-    Raises:
-        KeyError: if multiple conflicting streams found (i.e. multiple streams on crunchyroll.com)
 
     """
     summary = {}
@@ -88,6 +84,9 @@ def merge_anime_info(anime_entry_data, anime, streams):
 
     Returns:
         dict: single summary dictionary
+
+    Raises:
+        RuntimeError: developer warning that there are duplicate keys in the hardcoded lists
 
     """
     entry_attr = anime_entry_data['attributes']
