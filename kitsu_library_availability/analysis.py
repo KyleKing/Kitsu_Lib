@@ -132,9 +132,8 @@ def create_kitsu_database(summary_file_path):
     all_data = json.loads(Path(summary_file_path).read_text())
     entries = []
     for entry in all_data['data']:
-        # Lists are unsupported types, need to unwrap and remove dashes
-        categories = entry.pop('categories')
-        for category in categories:
+        # The list of categories is an unsupported type in SQL. Unwrap category and add each as a new key
+        for category in entry.pop('categories'):
             entry[humps.camelize(category)] = True
         entries.append(entry)
     table.insert_many(entries)  # much faster than insert()

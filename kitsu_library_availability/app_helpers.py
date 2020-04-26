@@ -14,7 +14,8 @@ from urllib.parse import quote as urlquote
 
 import dash_html_components as html
 import pandas as pd
-from icecream import ic
+
+# from icecream import ic
 
 
 def split_b64_file(b64_file):
@@ -109,7 +110,6 @@ def parse_uploaded_df(b64_file, filename, timestamp):
     decoded = base64.b64decode(data)
     try:
         suffix = Path(filename).suffix.lower()
-        ic(content_type, suffix)
         if suffix == '.csv':
             df_upload = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
 

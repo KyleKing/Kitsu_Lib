@@ -2,6 +2,7 @@
 # PLANNED: Generalize and move to Dash_Charts
 
 import re
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -10,6 +11,8 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
+import dataset
+import numpy as np
 import pandas as pd
 import plotly.express as px
 from dash.exceptions import PreventUpdate
@@ -22,23 +25,25 @@ from icecream import ic
 
 from .app_helpers import parse_uploaded_df
 from .app_tabs import InstructionsTab, TabIris, TabTip
+from .cache_helpers import CACHE_DIR, DBConnect
 
-#   Require user to submit "Tidy" data with non-value headers
-#   > Update static tab with example data_table of tidy data and links to more explanation
-#     dash_table.DataTable(
-#         data=df_example_tidy.to_dict('records'),
-#         columns=[{'name': i, 'id': i} for i in df_example_tidy.columns]
-#     ),
+# add popup module with datatable vertically so that all data fits (add column that says "more" with button that will open and populate the modal)
 
 # Create Data Module
 #  > See dbc form: https://dash-bootstrap-components.opensource.faculty.ai/docs/components/input/
 # (*) [1/2-storage] Create single SQLite DB file to hold upload dataframes
 #     > Show error if failed to parse data source
-#     > For each upload file, create table with filename and dump user uploaded data (use datasete for SQL management and to check if tables exists already - may need pandas to load CSV/JSON data first before dumping into SQL with datasete)
+#     > For each upload file, create table with filename and dump user uploaded data (use dataset for SQL management and to check if tables exists already - may need pandas to load CSV/JSON data first before dumping into SQL with dataset)
 #     > Create main table that stores meta information on each table - date added, source filename (with full path?), (last accessed?), etc.
 #     > Add dcc.Input to select SQL table and table to show raw data (use dash_charts table class)
 
 # ( ) [2/2-storage] Create user-specific SQLite DB file f'{username}.db'. Have user enter username, which could be stored in URL or in dcc.Store(). This defines which SQLite database is loaded
+
+# ( ) Update static tab with example data_table of tidy data and links to more explanation
+#     dash_table.DataTable(
+#         data=df_example_tidy.to_dict('records'),
+#         columns=[{'name': i, 'id': i} for i in df_example_tidy.columns]
+#     ),
 
 # ( ) Edge Cases
 #     > Allow user to clear data (either specific tables or all database)
@@ -138,6 +143,23 @@ def drop_to_upload(**upload_kwargs):
     )
 
 
+def get_safe_df_name(df_name):
+    """Guard against dataframes names that would conflict with required dataframes.
+
+    Args:
+        df_name: name used to store the dataframe
+
+    Returns:
+        str: dataframe name
+
+    """
+    # TODO: replace any spaces or other characters that aren't allowed in SQL table
+    ic(df_name)
+    if df_name in ['users', 'inventory']:
+        df_name += '-safe'
+    return df_name  # f'{username}_{df_name}'
+
+
 class KitsuExplorer(AppWithTabs):  # noqa: H601
     """Kitsu User Dataset Explorer Plotly/Dash Application."""
 
@@ -175,13 +197,106 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
     mod_cache = DataCache('user_session')
     """Data cache module for storing session information."""
 
+    # default_data = px.data.tips()
+    # """Default data set used to initialize database. Can be overwritten to simplify testing."""
+
     def initialization(self):
         """Initialize ids with `self.register_uniq_ids([...])` and other one-time actions."""
         super().initialization()
         self.register_uniq_ids([self.id_upload, self.id_upload_output, self.id_modal, self.id_modal_close,
                                 self.id_wip_button])
+
         # Register modules
         self.modules = [self.mod_table, self.mod_cache]
+
+        self.initialize_database()
+
+    def initialize_database(self):
+        """Create data members `self.database` and `self.user_table`."""
+        self.database = DBConnect(CACHE_DIR / '_placeholder_app_v3.db')
+        self.user_table = self.database.db.create_table(
+            'users', primary_id='username', primary_type=self.database.db.types.text)
+        self.inventory_table = self.database.db.create_table(
+            'inventory', primary_id='df_name', primary_type=self.database.db.types.text)
+
+    def find_user(self, username):
+        """Return the database row for the specified user.
+
+        Args:
+            username: string username
+
+        Returns:
+            dict: for row from table or None if no match
+
+        """
+        return self.user_table.find_one(username=username)
+
+    def add_user(self, username):
+        """Add the user to the table or update the user's information if already registered.
+
+        Args:
+            username: string username
+
+        """
+        now = time.time()
+        if self.find_user(username):
+            self.user_table.upsert({'username': username, 'last_loaded': now}, ['username'])
+        else:
+            self.user_table.insert({'username': username, 'creation': now, 'last_loaded': now})
+
+    def upload_data(self, username, df_name, df_upload):
+        """Store dataframe in database for specified user.
+
+        Args:
+            username: string username
+            df_name: name of the stored dataframe
+            df_upload: pandas dataframe to store
+
+        """
+        df_name = get_safe_df_name(df_name)
+        now = time.time()
+        if df_name not in self.database.db.tables:
+            # FIXME: Is upsert not working? This line may be throwing the "UNIQUE" error on `placeholder-1.id`
+            self.inventory_table.upsert({'df_name': df_name, 'username': username, 'creation': now}, ['df_name'])
+
+            table = self.database.db.create_table(df_name)
+            records = df_upload.to_dict(orient='records')
+            table.insert_many(records)
+
+    def list_stored_tables(self, username):
+        """Return list of all dataframes stored for the given user.
+
+        Args:
+            username: string username
+
+        Returns:
+            list: list of table names for stored data
+
+        """
+        return [row['df_name'] for row in self.inventory_table.find(username=username)]
+
+    def get_data(self, df_name):
+        """Retrieve stored data for specified dataframe name.
+
+        Args:
+            df_name: name of the stored dataframe
+
+        Returns:
+            pd.DataFrame: pandas dataframe retrieved from the database
+
+        """
+        df_name = get_safe_df_name(df_name)
+        table = self.database.db.load_table(df_name)
+        return pd.DataFrame.from_records(table.all())
+
+    def delete_data(self, df_name):
+        """Remove specified data from the database.
+
+        Args:
+            df_name: name of the stored dataframe
+
+        """
+        self.database.db.load_table(get_safe_df_name(df_name)).drop()
 
     def define_nav_elements(self):
         """Return list of initialized tabs.
@@ -207,13 +322,13 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
             dbc.Row([dbc.Col([
                 html.H3('Kitsu Library Explorer', style={'padding': '10px 0 0 10px'}),
                 super().return_layout(),
-            ])]),
+            ])], style={'margin': 0, 'padding': 0}),
             html.Hr(),
             dbc.Row([dbc.Col([
                 dbc.Button('Primary', color='primary', className='mr-1', id=self.ids[self.id_wip_button]),
                 drop_to_upload(id=self.ids[self.id_upload]),
                 dcc.Loading(html.Div(id=self.ids[self.id_upload_output]), type='circle'),
-                self.mod_table.return_layout(self.ids, px.data.gapminder()),
+                # self.mod_table.return_layout(self.ids, px.data.gapminder()),
                 self.mod_cache.return_layout(self.ids),
             ])], style={'maxWidth': '90%', 'paddingLeft': '5%'}),
 
@@ -248,6 +363,25 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
             button_id = get_triggered_id()
             return [button_id != self.ids[self.id_modal_close], data]
 
+    def show_data(self, username):
+        """TODO."""
+        children = []
+        for df_name in self.list_stored_tables(username):
+            df_upload = self.get_data(df_name)
+            children.extend([
+                html.H5(df_name),
+                dash_table.DataTable(
+                    data=df_upload[:25].to_dict('records'),
+                    columns=[{'name': i, 'id': i} for i in df_upload.columns[:10]],
+                    style_cell={
+                        'overflow': 'hidden',
+                        'textOverflow': 'ellipsis',
+                        'maxWidth': 0,
+                    },
+                ),
+            ])
+        return html.Div(children)
+
     def register_upload_handler(self):
         """Register the upload_handler callbacks."""  # noqa: DAR401
         outputs = [(self.id_upload_output, 'children')]
@@ -258,32 +392,23 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
         def upload_handler(*raw_args):
             a_in, a_state = map_args(raw_args, inputs, states)
             b64_file = a_in[self.id_upload]['contents']
-            if b64_file is None:
-                raise PreventUpdate
-
             filename = a_state[self.id_upload]['filename']
             timestamp = a_state[self.id_upload]['last_modified']
-            df_upload = parse_uploaded_df(b64_file, filename, timestamp)
+            username = 'username'  # TODO: IMPLEMENT
 
-            return [html.Div([
-                html.H5(filename),
-                html.H6(datetime.fromtimestamp(timestamp)),
+            if b64_file is None:
+                raise PreventUpdate  # FIXME: TEMPORARY
+                df_upload = pd.read_csv(CACHE_DIR / '_database_kitsu.csv')  # , na_values='0')
+                filename = 'placeholder-1'
+                timestamp = time.time()
+            else:
+                df_upload = parse_uploaded_df(b64_file, filename, timestamp)
 
-                dash_table.DataTable(
-                    data=df_upload[:25].to_dict('records'),
-                    columns=[{'name': i, 'id': i} for i in df_upload.columns[:10]],
-                    style_cell={
-                        'overflow': 'hidden',
-                        'textOverflow': 'ellipsis',
-                        'maxWidth': 0,
-                    },
-                ),
-                html.Hr(),  # horizontal line
+            # df_upload = df_upload.fillna('0')
+            df_upload = df_upload.dropna(axis='columns')
+            ic(username, filename, df_upload[:1])
 
-                # For debugging, display the raw contents provided by the web browser
-                html.Div('Raw Content'),
-                html.Pre(b64_file[0:200] + '...', style={
-                    'whiteSpace': 'pre-wrap',
-                    'wordBreak': 'break-all',
-                }),
-            ])]
+            self.add_user(username)
+            self.upload_data(username, filename, df_upload)
+
+            return [self.show_data(username)]
