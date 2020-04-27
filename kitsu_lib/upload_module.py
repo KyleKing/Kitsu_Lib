@@ -161,13 +161,11 @@ class UploadModule(ModuleBase):
         """
         self.database.db.load_table(table_name).drop()
 
-    def return_layout(self, ids, storage_type='memory', **store_kwargs):
+    def return_layout(self, ids):
         """Return Dash application layout.
 
         Args:
             ids: `self.ids` from base application
-            storage_type: `dcc.Store` storage type. Default is memory to clear on refresh
-            store_kwargs: additional keyword arguments to pass to `dcc.Store`
 
         Returns:
             dict: Dash HTML object.
@@ -217,7 +215,8 @@ class UploadModule(ModuleBase):
             ]
 
         children = [html.Hr()]
-        for row in self.inventory_table.find(username=username):
+        rows = self.inventory_table.find(username=username)
+        for row in sorted(rows, key=lambda _row: _row['creation'], reverse=True):
             df_upload = self.get_data(row['table_name'])
             children.extend(format_table(row['df_name'], row['username'], row['creation'], df_upload))
         children.extend(

@@ -65,13 +65,14 @@ Latest coverage table
 | `kitsu_lib/__init__.py` | 3 | 0 | 0 | 100.0 |
 | `kitsu_lib/analysis.py` | 53 | 4 | 0 | 92.5 |
 | `kitsu_lib/api_helpers.py` | 54 | 39 | 0 | 27.8 |
-| `kitsu_lib/app.py` | 120 | 22 | 0 | 81.7 |
-| `kitsu_lib/app_helpers.py` | 44 | 29 | 0 | 34.1 |
-| `kitsu_lib/app_tabs.py` | 102 | 11 | 0 | 89.2 |
+| `kitsu_lib/app.py` | 60 | 3 | 0 | 95.0 |
+| `kitsu_lib/app_helpers.py` | 45 | 30 | 0 | 33.3 |
+| `kitsu_lib/app_tabs.py` | 102 | 12 | 0 | 88.2 |
 | `kitsu_lib/cache_helpers.py` | 43 | 19 | 0 | 55.8 |
 | `kitsu_lib/kitsu_helpers.py` | 17 | 0 | 0 | 100.0 |
 | `kitsu_lib/scraper.py` | 39 | 33 | 0 | 15.4 |
+| `kitsu_lib/upload_module.py` | 90 | 25 | 0 | 72.2 |
 
-Generated on: 2020-04-26T11:29:33.637143
+Generated on: 2020-04-26T22:34:44.222860
 
 <!-- /COVERAGE -->

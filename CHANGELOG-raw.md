@@ -27,6 +27,8 @@
 
 ### Changes
 
+* Show errors on upload. [Kyle King]
+
 * Move upload to module. [Kyle King]
 
 * Resolve linting errors and improve upload. [Kyle King]
