@@ -5,6 +5,8 @@
 
 ### New
 
+* Rename to kitsu_library. [Kyle King]
+
 * Add static tab and update notes. [Kyle King]
 
 * Initialize tests. [Kyle King]
@@ -24,6 +26,8 @@
 * Add helpers file and test data. [Kyle King]
 
 ### Changes
+
+* Move upload to module. [Kyle King]
 
 * Resolve linting errors and improve upload. [Kyle King]
 

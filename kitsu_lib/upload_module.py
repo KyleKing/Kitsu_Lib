@@ -16,7 +16,7 @@ from .app_helpers import parse_uploaded_df
 from .cache_helpers import CACHE_DIR, DBConnect
 
 
-def show_toast(message, header, icon='warning', style=None):
+def show_toast(message, header, icon='warning', style=None, **toast_kwargs):
     """Create toast notification.
 
     Args:
@@ -24,6 +24,7 @@ def show_toast(message, header, icon='warning', style=None):
         header: string notification header
         icon: string name in `(primary,secondary,success,warning,danger,info,light,dark)`. Default is warning
         style: style dictionary. Default is the top right
+        toast_kwargs: additional toast keyword arguments (such as `duration=5000`)
 
     Returns:
         dbc.Toast: toast notification from Dash Bootstrap Components library
@@ -32,7 +33,7 @@ def show_toast(message, header, icon='warning', style=None):
     if style is None:
         # Position in the top right (note: will occlude the tabs when open, could be moved elsewhere)
         style = {'position': 'fixed', 'top': 10, 'right': 10, 'width': 350, 'zIndex': 1900}
-    return dbc.Toast(message, header=header, icon=icon, style=style, dismissable=True, duration=1000 * 5)
+    return dbc.Toast(message, header=header, icon=icon, style=style, dismissable=True, **toast_kwargs)
 
 
 def drop_to_upload(**upload_kwargs):
@@ -91,6 +92,74 @@ class UploadModule(ModuleBase):
         self.default_table = self.database.db.create_table('default')
         if self.default_table.count() == 0:
             self.default_table.insert_many(px.data.tips().to_dict(orient='records'))
+
+    def find_user(self, username):
+        """Return the database row for the specified user.
+
+        Args:
+            username: string username
+
+        Returns:
+            dict: for row from table or None if no match
+
+        """
+        return self.user_table.find_one(username=username)
+
+    def add_user(self, username):
+        """Add the user to the table or update the user's information if already registered.
+
+        Args:
+            username: string username
+
+        """
+        now = time.time()
+        if self.find_user(username):
+            self.user_table.upsert({'username': username, 'last_loaded': now}, ['username'])
+        else:
+            self.user_table.insert({'username': username, 'creation': now, 'last_loaded': now})
+
+    def upload_data(self, username, df_name, df_upload):
+        """Store dataframe in database for specified user.
+
+        Args:
+            username: string username
+            df_name: name of the stored dataframe
+            df_upload: pandas dataframe to store
+
+        """
+        now = time.time()
+        table_name = f'{username}-{df_name}-{int(now)}'
+        table = self.database.db.create_table(table_name)
+        try:
+            table.insert_many(df_upload.to_dict(orient='records'))
+        except Exception:
+            table.drop()  # Delete the table if upload fails
+            raise
+
+        self.inventory_table.insert({'table_name': table_name, 'df_name': df_name, 'username': username,
+                                    'creation': now})
+
+    def get_data(self, table_name):
+        """Retrieve stored data for specified dataframe name.
+
+        Args:
+            table_name: unique name of the table to retrieve
+
+        Returns:
+            pd.DataFrame: pandas dataframe retrieved from the database
+
+        """
+        table = self.database.db.load_table(table_name)
+        return pd.DataFrame.from_records(table.all())
+
+    def delete_data(self, table_name):
+        """Remove specified data from the database.
+
+        Args:
+            table_name: unique name of the table to delete
+
+        """
+        self.database.db.load_table(table_name).drop()
 
     def return_layout(self, ids, storage_type='memory', **store_kwargs):
         """Return Dash application layout.
@@ -174,10 +243,20 @@ class UploadModule(ModuleBase):
             timestamp = a_state[self.get(self.id_upload)]['last_modified']
             username = 'username'  # TODO: IMPLEMENT
 
-            if b64_file is not None:
-                df_upload = parse_uploaded_df(b64_file, filename, timestamp)
-                df_upload = df_upload.dropna(axis='columns')  # FIXME: Need to better handle NaN values
-                self.add_user(username)
-                self.upload_data(username, filename, df_upload)
+            child_output = []
+            try:
+                if b64_file is not None:
+                    df_upload = parse_uploaded_df(b64_file, filename, timestamp)
+                    df_upload = df_upload.dropna(axis='columns')  # FIXME: Need to better handle NaN values
+                    self.add_user(username)
+                    self.upload_data(username, filename, df_upload)
 
-            return map_outputs(outputs, [(self.get(self.id_upload_output), 'children', self.show_data(username))])
+            except Exception as error:
+                child_output.extend([
+                    show_toast(f'{error}', 'Upload Error', icon='danger'),
+                    dcc.Markdown(f'### Upload Error\n\n{type(error)}\n\n```\n{error}\n```'),
+                ])
+
+            child_output.append(self.show_data(username))
+
+            return map_outputs(outputs, [(self.get(self.id_upload_output), 'children', html.Div(child_output))])

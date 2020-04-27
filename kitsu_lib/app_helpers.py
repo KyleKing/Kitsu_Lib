@@ -102,11 +102,12 @@ def parse_json(raw_json):
         RuntimeError: if the JSON file can't be parsed
 
     """
-    keys = [*raw_json.keys()]
+    dict_json = json.loads(raw_json)
+    keys = [*dict_json.keys()]
     if len(keys) != 1:
         raise RuntimeError('Expected JSON with format `{data: [...]}` where `data` could be any key.'
                            f'However, more than one key was found: {keys}')
-    return pd.read_json(raw_json[keys[0]], orient='read_json')
+    return pd.DataFrame.from_records(dict_json[keys[0]])
 
 
 def load_df(decoded, filename):
@@ -129,8 +130,10 @@ def load_df(decoded, filename):
         df_upload = pd.read_excel(io.BytesIO(decoded))
 
     elif suffix == '.json':
-        raw_json = json.loads(io.StringIO(decoded.decode('utf-8')))
-        df_upload = parse_json(raw_json)
+        df_upload = parse_json(decoded.decode('utf-8'))
+
+    else:
+        raise RuntimeError(f'File type ({suffix}) is unsupported. Expected .csv, .xl*, or .json')
 
     return df_upload  # noqa: R504
 
@@ -156,6 +159,6 @@ def parse_uploaded_df(b64_file, filename, timestamp):
         df_upload = load_df(decoded, filename)
 
     except Exception as error:
-        raise RuntimeError(f'Could not parse {filename} ({content_type}). Error: {error}')
+        raise RuntimeError(f'Could not parse {filename} ({content_type})\nError: {error}')
 
     return df_upload  # noqa: R504

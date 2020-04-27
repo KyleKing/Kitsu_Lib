@@ -29,7 +29,6 @@ from .upload_module import UploadModule
 # Create Data Module
 #  > See dbc form: https://dash-bootstrap-components.opensource.faculty.ai/docs/components/input/
 # (*) [1/2-storage] Create single SQLite DB file to hold upload dataframes
-#     > Show error if failed to parse data source
 #     > For each upload file, create table with filename and dump user uploaded data (use dataset for SQL management
 #           and to check if tables exists already - may need pandas to load CSV/JSON data first before dumping into SQL
 #           with dataset)
@@ -137,69 +136,6 @@ class KitsuExplorer(AppWithTabs):  # noqa: H601
 
         # Register modules
         self.modules = [self.mod_table, self.mod_cache, self.mod_upload]
-
-    def find_user(self, username):
-        """Return the database row for the specified user.
-
-        Args:
-            username: string username
-
-        Returns:
-            dict: for row from table or None if no match
-
-        """
-        return self.user_table.find_one(username=username)
-
-    def add_user(self, username):
-        """Add the user to the table or update the user's information if already registered.
-
-        Args:
-            username: string username
-
-        """
-        now = time.time()
-        if self.find_user(username):
-            self.user_table.upsert({'username': username, 'last_loaded': now}, ['username'])
-        else:
-            self.user_table.insert({'username': username, 'creation': now, 'last_loaded': now})
-
-    def upload_data(self, username, df_name, df_upload):
-        """Store dataframe in database for specified user.
-
-        Args:
-            username: string username
-            df_name: name of the stored dataframe
-            df_upload: pandas dataframe to store
-
-        """
-        now = time.time()
-        table_name = f'{username}-{df_name}-{int(now)}'
-        self.inventory_table.insert({'table_name': table_name, 'df_name': df_name, 'username': username,
-                                     'creation': now})
-        table = self.database.db.create_table(table_name)
-        table.insert_many(df_upload.to_dict(orient='records'))
-
-    def get_data(self, table_name):
-        """Retrieve stored data for specified dataframe name.
-
-        Args:
-            table_name: unique name of the table to retrieve
-
-        Returns:
-            pd.DataFrame: pandas dataframe retrieved from the database
-
-        """
-        table = self.database.db.load_table(table_name)
-        return pd.DataFrame.from_records(table.all())
-
-    def delete_data(self, table_name):
-        """Remove specified data from the database.
-
-        Args:
-            table_name: unique name of the table to delete
-
-        """
-        self.database.db.load_table(table_name).drop()
 
     def define_nav_elements(self):
         """Return list of initialized tabs.
