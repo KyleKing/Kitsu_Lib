@@ -1,8 +1,10 @@
 # kitsu_lib
 
-While originally only built to find legal streaming links for a user's Kitsu watch list, I have since added a dashboard with Plotly/Dash to filter for ratings, categories, and other attributes to help choose what to watch.
+**Update:** this was a fun project to try API development and caching, but I no longer need this and won't continue any development
 
-The Python package uses the [KitsuAPI](https://kitsu.docs.apiary.io/#) and tries to cache as much as possible to avoid too many calls
+Check streaming availability for anime in Kitsu library (Crunchyroll, Funimation, Netflix, Hulu, Amazon, Tubi, etc.)
+
+The Python package uses the [KitsuAPI](https://kitsu.docs.apiary.io/#) and caches responses to minimize calls
 
 Open an issue if you have any questions or run into any issues
 
