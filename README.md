@@ -1,6 +1,10 @@
 # kitsu_lib
 
-**Update:** this was a fun project to try API development and caching, but I no longer need this and won't continue any development
+**Archival Update**: this was a good project to experiment with web scraping and caching, but my watch list is so small (<20) that I no longer need any kind of scripting. `Reelgood` has such a [great (paid) database](https://www.protocol.com/reelgood) that this wouldn't make sense to expand in for my broader watch list
+
+This project was [built on `dash_dev`](https://github.com/KyleKing/Kitsu_Lib/blob/main/poetry.lock#L395), the precursor to calcipy. `Kitsu_lib` won't run out-of-the-box, but with the help of [`calcipy_template` could be ported](https://github.com/KyleKing/calcipy_template) to the latest version of calcipy
+
+---
 
 Check streaming availability for anime in Kitsu library (Crunchyroll, Funimation, Netflix, Hulu, Amazon, Tubi, etc.)
 
